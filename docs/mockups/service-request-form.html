@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="UstaFlow Lite yeni servis talebi ekranı görsel taslağı"
+    />
+    <title>UstaFlow Lite — Yeni Servis Talebi Mockup</title>
+    <link rel="stylesheet" href="./service-request-form.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <a class="sidebar-brand" href="#" aria-label="UstaFlow Lite ana sayfa">
+          <img
+            src="../assets/logo/ustaflow-mark.svg"
+            width="42"
+            height="42"
+            alt=""
+          />
+          <span>UstaFlow <small>Lite</small></span>
+        </a>
+
+        <nav aria-label="Ana menü">
+          <p class="nav-label">Yönetim</p>
+          <a class="nav-item" href="#"><span class="nav-icon">D</span><span>Dashboard</span></a>
+          <a class="nav-item" href="#"><span class="nav-icon">M</span><span>Müşteriler</span></a>
+          <a class="nav-item active" href="#"><span class="nav-icon">S</span><span>Servis Talepleri</span></a>
+          <a class="nav-item" href="#"><span class="nav-icon">T</span><span>Teknik Personel</span></a>
+          <a class="nav-item" href="#"><span class="nav-icon">R</span><span>Raporlar</span></a>
+          <a class="nav-item" href="#"><span class="nav-icon">A</span><span>Ayarlar</span></a>
+        </nav>
+
+        <div class="sidebar-help">
+          <span class="help-mark">?</span>
+          <div>
+            <strong>Yardıma mı ihtiyacınız var?</strong>
+            <a href="#">Teknik destek</a>
+          </div>
+        </div>
+        <p class="sidebar-version">UstaFlow Lite · v1.0</p>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="page-heading">
+            <button class="menu-button" type="button" aria-label="Menüyü aç">
+              <span></span><span></span><span></span>
+            </button>
+            <div>
+              <p>Servis Talepleri <span>/</span> Yeni Talep</p>
+              <h1>Yeni Servis Talebi</h1>
+            </div>
+          </div>
+
+          <div class="topbar-actions">
+            <button class="notification" type="button" aria-label="Bildirimler">
+              <span>●</span>
+            </button>
+            <div class="profile">
+              <span class="avatar">BA</span>
+              <span class="profile-copy">
+                <strong>Barış Aksoy</strong>
+                <small>Yönetici</small>
+              </span>
+              <span class="chevron">⌄</span>
+            </div>
+          </div>
+        </header>
+
+        <section class="content-area">
+          <div class="intro-row">
+            <div>
+              <h2>Yeni Servis Talebi</h2>
+              <p>Müşteri talebini kaydedin ve uygun teknik personele atayın.</p>
+            </div>
+            <span class="draft-badge"><i></i> Kaydedilmemiş taslak</span>
+          </div>
+
+          <div class="form-layout">
+            <form class="request-form" action="#" method="post">
+              <section class="form-section">
+                <div class="section-heading">
+                  <span>01</span>
+                  <div>
+                    <h3>Talep Bilgileri</h3>
+                    <p>Müşteriyi ve servis talebinin temel detaylarını belirleyin.</p>
+                  </div>
+                </div>
+
+                <div class="form-grid">
+                  <label class="field field-wide">
+                    <span>Müşteri seçimi <b>*</b></span>
+                    <span class="control select-control">
+                      <i class="control-icon">M</i>
+                      <select name="customer">
+                        <option>Yıldız Apartmanı — Kadıköy</option>
+                      </select>
+                    </span>
+                  </label>
+
+                  <label class="field">
+                    <span>Talep başlığı <b>*</b></span>
+                    <span class="control">
+                      <input type="text" value="Kombi basınç sorunu" />
+                    </span>
+                  </label>
+
+                  <label class="field">
+                    <span>Servis kategorisi <b>*</b></span>
+                    <span class="control select-control">
+                      <select name="category">
+                        <option>Isıtma Sistemleri</option>
+                      </select>
+                    </span>
+                  </label>
+
+                  <label class="field field-wide description-field">
+                    <span>Arıza veya talep açıklaması <b>*</b></span>
+                    <span class="control textarea-control">
+                      <textarea name="description" rows="2">Kombi basıncı gün içinde düşüyor ve cihaz uyarı veriyor. Yerinde kontrol talep ediliyor.</textarea>
+                      <small>94 / 500</small>
+                    </span>
+                  </label>
+
+                  <fieldset class="field field-wide priority-field">
+                    <legend>Öncelik <b>*</b></legend>
+                    <div class="priority-options">
+                      <label><input type="radio" name="priority" /><span><i class="low"></i>Düşük</span></label>
+                      <label><input type="radio" name="priority" checked /><span><i class="normal"></i>Normal</span></label>
+                      <label><input type="radio" name="priority" /><span><i class="high"></i>Yüksek</span></label>
+                      <label><input type="radio" name="priority" /><span><i class="urgent"></i>Acil</span></label>
+                    </div>
+                  </fieldset>
+                </div>
+              </section>
+
+              <section class="form-section planning-section">
+                <div class="section-heading">
+                  <span>02</span>
+                  <div>
+                    <h3>Planlama ve Atama</h3>
+                    <p>Randevu zamanı, teknik personel ve servis konumunu ekleyin.</p>
+                  </div>
+                </div>
+
+                <div class="form-grid planning-grid">
+                  <label class="field">
+                    <span>Randevu tarihi <b>*</b></span>
+                    <span class="control"><input type="date" value="2026-07-29" /></span>
+                  </label>
+
+                  <label class="field">
+                    <span>Randevu saati <b>*</b></span>
+                    <span class="control"><input type="time" value="10:30" /></span>
+                  </label>
+
+                  <label class="field">
+                    <span>Teknik personel seçimi</span>
+                    <span class="control select-control">
+                      <select name="technician">
+                        <option>Emre Kaya — Uygun</option>
+                      </select>
+                    </span>
+                  </label>
+
+                  <label class="field">
+                    <span>Servis adresi <b>*</b></span>
+                    <span class="control">
+                      <input type="text" value="Bağdat Cad. No: 124, Kadıköy" />
+                    </span>
+                  </label>
+
+                  <label class="field field-wide notes-field">
+                    <span>Ek notlar</span>
+                    <span class="control textarea-control">
+                      <textarea name="notes" rows="2" placeholder="Teknisyen için ek bilgi veya müşteri notu ekleyin..."></textarea>
+                    </span>
+                  </label>
+                </div>
+              </section>
+
+              <footer class="form-actions">
+                <button class="button ghost" type="button">İptal</button>
+                <button class="button secondary" type="button">Taslak Kaydet</button>
+                <button class="button primary" type="submit">
+                  Servis Talebi Oluştur <span>→</span>
+                </button>
+              </footer>
+            </form>
+
+            <aside class="context-panel">
+              <section class="side-card progress-card">
+                <div class="side-heading">
+                  <h3>Talep Oluşturma</h3>
+                  <span>2 / 3</span>
+                </div>
+                <div class="progress-line">
+                  <i class="complete"></i><i class="complete"></i><i></i>
+                </div>
+                <ol>
+                  <li class="complete"><span>✓</span><div><strong>Talep bilgileri</strong><small>Tamamlandı</small></div></li>
+                  <li class="active"><span>2</span><div><strong>Planlama ve atama</strong><small>Devam ediyor</small></div></li>
+                  <li><span>3</span><div><strong>Kontrol ve oluştur</strong><small>Bekliyor</small></div></li>
+                </ol>
+              </section>
+
+              <section class="side-card customer-card">
+                <div class="side-heading">
+                  <h3>Seçilen Müşteri</h3>
+                  <a href="#">Değiştir</a>
+                </div>
+                <div class="customer-head">
+                  <span class="customer-logo">YA</span>
+                  <div>
+                    <strong>Yıldız Apartmanı</strong>
+                    <small>Kurumsal müşteri · #M-0184</small>
+                  </div>
+                </div>
+                <dl>
+                  <div><dt>Yetkili</dt><dd>Ayşe Yıldız</dd></div>
+                  <div><dt>Telefon</dt><dd>+90 532 555 24 18</dd></div>
+                  <div><dt>Açık talep</dt><dd><span>2 aktif</span></dd></div>
+                </dl>
+              </section>
+
+              <section class="side-card workload-card">
+                <div class="side-heading">
+                  <h3>Görev Yoğunluğu</h3>
+                  <span class="available-badge">Uygun</span>
+                </div>
+                <div class="technician">
+                  <span class="technician-avatar">EK</span>
+                  <div>
+                    <strong>Emre Kaya</strong>
+                    <small>Isıtma Sistemleri Uzmanı</small>
+                  </div>
+                </div>
+                <div class="load-meta">
+                  <span>Bugünkü görevler</span><strong>3 / 6</strong>
+                </div>
+                <div class="load-bar"><span></span></div>
+                <div class="load-slots">
+                  <span><i></i>09:00</span>
+                  <span><i></i>10:30</span>
+                  <span class="free"><i></i>13:00</span>
+                  <span class="free"><i></i>15:30</span>
+                </div>
+              </section>
+            </aside>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
