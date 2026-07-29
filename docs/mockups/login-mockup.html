@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="UstaFlow Lite giriş ekranı görsel taslağı"
+    />
+    <title>UstaFlow Lite — Giriş Mockup</title>
+    <link rel="stylesheet" href="./login-mockup.css" />
+  </head>
+  <body>
+    <main class="login-shell">
+      <section class="intro-panel" aria-labelledby="intro-title">
+        <div class="brand">
+          <img
+            src="../assets/logo/ustaflow-mark.svg"
+            width="44"
+            height="44"
+            alt=""
+          />
+          <span>UstaFlow Lite</span>
+        </div>
+
+        <div class="intro-copy">
+          <p class="eyebrow">Saha operasyon platformu</p>
+          <h1 id="intro-title">Servis akışınız, her an kontrolünüzde.</h1>
+          <p>
+            Teknik servis ve saha operasyonlarını tek panelden yönetin.
+          </p>
+        </div>
+
+        <div class="flow-preview" aria-hidden="true">
+          <div class="flow-line"></div>
+          <div class="flow-step">
+            <span class="step-icon">01</span>
+            <span>
+              <strong>Talep oluşturuldu</strong>
+              <small>Müşteri kaydı alındı</small>
+            </span>
+          </div>
+          <div class="flow-step active">
+            <span class="step-icon">02</span>
+            <span>
+              <strong>Ekip yönlendirildi</strong>
+              <small>En uygun saha ekibi atandı</small>
+            </span>
+          </div>
+          <div class="flow-step">
+            <span class="step-icon">03</span>
+            <span>
+              <strong>İş tamamlandı</strong>
+              <small>Servis raporu hazır</small>
+            </span>
+          </div>
+        </div>
+
+        <p class="intro-footer">Daha hızlı ekipler. Daha mutlu müşteriler.</p>
+      </section>
+
+      <section class="form-panel" aria-label="Giriş alanı">
+        <div class="login-card">
+          <div class="card-logo">
+            <img
+              src="../assets/logo/ustaflow-mark.svg"
+              width="52"
+              height="52"
+              alt="UstaFlow Lite"
+            />
+          </div>
+
+          <div class="card-heading">
+            <p class="eyebrow">Tekrar hoş geldiniz</p>
+            <h2>UstaFlow Lite</h2>
+            <p>Hesabınıza giriş yaparak operasyonlarınıza devam edin.</p>
+          </div>
+
+          <form action="#" method="post">
+            <label for="email">E-posta</label>
+            <div class="input-wrap">
+              <span aria-hidden="true">@</span>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                placeholder="ornek@ustaflow.com"
+              />
+            </div>
+
+            <div class="label-row">
+              <label for="password">Şifre</label>
+              <a href="#">Şifremi unuttum</a>
+            </div>
+            <div class="input-wrap">
+              <span aria-hidden="true">••</span>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                autocomplete="current-password"
+                placeholder="Şifrenizi girin"
+              />
+            </div>
+
+            <label class="remember">
+              <input type="checkbox" name="remember" />
+              <span>Beni hatırla</span>
+            </label>
+
+            <button type="submit">Giriş Yap <span aria-hidden="true">→</span></button>
+          </form>
+
+          <p class="support">
+            Giriş yapmakta sorun mu yaşıyorsunuz?
+            <a href="#">Teknik destek</a>
+          </p>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

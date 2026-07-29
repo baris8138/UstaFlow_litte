@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="UstaFlow Lite yönetici dashboard görsel taslağı"
+    />
+    <title>UstaFlow Lite — Yönetici Dashboard Mockup</title>
+    <link rel="stylesheet" href="./admin-dashboard.css" />
+  </head>
+  <body>
+    <div class="dashboard-shell">
+      <aside class="sidebar">
+        <a class="sidebar-brand" href="#" aria-label="UstaFlow Lite ana sayfa">
+          <img
+            src="../assets/logo/ustaflow-mark.svg"
+            width="42"
+            height="42"
+            alt=""
+          />
+          <span>UstaFlow <small>Lite</small></span>
+        </a>
+
+        <nav aria-label="Ana menü">
+          <p class="nav-label">Yönetim</p>
+          <a class="nav-item active" href="#">
+            <span class="nav-icon">D</span><span>Dashboard</span>
+          </a>
+          <a class="nav-item" href="#">
+            <span class="nav-icon">M</span><span>Müşteriler</span>
+          </a>
+          <a class="nav-item" href="#">
+            <span class="nav-icon">S</span><span>Servis Talepleri</span>
+          </a>
+          <a class="nav-item" href="#">
+            <span class="nav-icon">T</span><span>Teknik Personel</span>
+          </a>
+          <a class="nav-item" href="#">
+            <span class="nav-icon">R</span><span>Raporlar</span>
+          </a>
+          <a class="nav-item" href="#">
+            <span class="nav-icon">A</span><span>Ayarlar</span>
+          </a>
+        </nav>
+
+        <div class="sidebar-help">
+          <span class="help-mark">?</span>
+          <div>
+            <strong>Yardıma mı ihtiyacınız var?</strong>
+            <a href="#">Teknik destek</a>
+          </div>
+        </div>
+
+        <p class="sidebar-version">UstaFlow Lite · v1.0</p>
+      </aside>
+
+      <main class="main-content">
+        <header class="topbar">
+          <div class="page-heading">
+            <button class="menu-button" type="button" aria-label="Menüyü aç">
+              <span></span><span></span><span></span>
+            </button>
+            <div>
+              <p>28 Temmuz 2026 · Salı</p>
+              <h1>Dashboard</h1>
+            </div>
+          </div>
+
+          <div class="topbar-actions">
+            <button class="notification" type="button" aria-label="Bildirimler">
+              <span>●</span>
+            </button>
+            <div class="profile">
+              <span class="avatar">BA</span>
+              <span class="profile-copy">
+                <strong>Barış Aksoy</strong>
+                <small>Yönetici</small>
+              </span>
+              <span class="chevron">⌄</span>
+            </div>
+          </div>
+        </header>
+
+        <section class="content-area">
+          <div class="welcome-row">
+            <div>
+              <h2>Günaydın, Barış</h2>
+              <p>Servis operasyonlarının bugünkü özeti burada.</p>
+            </div>
+            <button class="primary-button" type="button">
+              <span>+</span> Yeni Servis Talebi
+            </button>
+          </div>
+
+          <section class="stats-grid" aria-label="Servis özeti">
+            <article class="stat-card">
+              <div class="stat-top">
+                <span class="stat-icon turquoise">ST</span>
+                <span class="trend up">↑ %12</span>
+              </div>
+              <strong>248</strong>
+              <p>Toplam Servis Talebi</p>
+              <small>Geçen aya göre</small>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top">
+                <span class="stat-icon navy">Aİ</span>
+                <span class="trend neutral">24 aktif</span>
+              </div>
+              <strong>38</strong>
+              <p>Açık İşler</p>
+              <small>14 iş planlanmayı bekliyor</small>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top">
+                <span class="stat-icon mint">Tİ</span>
+                <span class="trend up">↑ %8</span>
+              </div>
+              <strong>196</strong>
+              <p>Tamamlanan İşler</p>
+              <small>Bu ay tamamlanan</small>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top">
+                <span class="stat-icon amber">BR</span>
+                <span class="trend neutral">3 sıradaki</span>
+              </div>
+              <strong>12</strong>
+              <p>Bugünkü Randevular</p>
+              <small>Sonraki randevu 10:30</small>
+            </article>
+          </section>
+
+          <div class="dashboard-grid">
+            <section class="panel requests-panel">
+              <div class="panel-heading">
+                <div>
+                  <h3>Son Servis Talepleri</h3>
+                  <p>En son oluşturulan saha işleri</p>
+                </div>
+                <a href="#">Tümünü gör <span>→</span></a>
+              </div>
+
+              <div class="table-wrap">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Talep</th>
+                      <th>Müşteri</th>
+                      <th>Teknisyen</th>
+                      <th>Durum</th>
+                      <th>Tarih</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><strong>#SRV-1048</strong><small>Kombi bakımı</small></td>
+                      <td>Yıldız Apartmanı</td>
+                      <td><span class="mini-avatar teal">EK</span> Emre K.</td>
+                      <td><span class="status progress">Devam Ediyor</span></td>
+                      <td>Bugün, 09:30</td>
+                    </tr>
+                    <tr>
+                      <td><strong>#SRV-1047</strong><small>Klima arızası</small></td>
+                      <td>Mavi Ofis</td>
+                      <td><span class="mini-avatar blue">MD</span> Mert D.</td>
+                      <td><span class="status planned">Planlandı</span></td>
+                      <td>Bugün, 11:00</td>
+                    </tr>
+                    <tr>
+                      <td><strong>#SRV-1046</strong><small>Elektrik kontrolü</small></td>
+                      <td>Park Residence</td>
+                      <td><span class="mini-avatar purple">SY</span> Selin Y.</td>
+                      <td><span class="status done">Tamamlandı</span></td>
+                      <td>Dün, 16:45</td>
+                    </tr>
+                    <tr>
+                      <td><strong>#SRV-1045</strong><small>Su kaçağı</small></td>
+                      <td>Ardıç Market</td>
+                      <td><span class="mini-avatar amber-bg">OA</span> Onur A.</td>
+                      <td><span class="status waiting">Bekliyor</span></td>
+                      <td>Dün, 14:20</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <section class="panel workload-panel">
+              <div class="panel-heading">
+                <div>
+                  <h3>Görev Dağılımı</h3>
+                  <p>Teknik personel doluluk oranı</p>
+                </div>
+                <span class="period">Bu hafta</span>
+              </div>
+
+              <div class="workload-chart" aria-label="Teknik personel görev dağılımı">
+                <div class="chart-center">
+                  <strong>42</strong>
+                  <span>Aktif görev</span>
+                </div>
+                <div class="chart-ring"></div>
+              </div>
+
+              <div class="chart-legend">
+                <span><i class="available"></i><strong>6</strong> Uygun</span>
+                <span><i class="field"></i><strong>9</strong> Sahada</span>
+                <span><i class="leave"></i><strong>2</strong> İzinli</span>
+              </div>
+            </section>
+
+            <section class="panel delayed-panel">
+              <div class="panel-heading">
+                <div>
+                  <h3>Geciken Görevler</h3>
+                  <p>Öncelikli müdahale gerekenler</p>
+                </div>
+                <span class="alert-count">3 görev</span>
+              </div>
+
+              <div class="delayed-list">
+                <article>
+                  <span class="delay-line critical"></span>
+                  <div>
+                    <strong>#SRV-1032 · Asansör kontrolü</strong>
+                    <p>Güneş İş Merkezi · Mert Demir</p>
+                  </div>
+                  <span class="delay-time">2 gün</span>
+                </article>
+                <article>
+                  <span class="delay-line warning"></span>
+                  <div>
+                    <strong>#SRV-1038 · Klima montajı</strong>
+                    <p>Nova Plaza · Emre Kaya</p>
+                  </div>
+                  <span class="delay-time">8 saat</span>
+                </article>
+                <article>
+                  <span class="delay-line warning"></span>
+                  <div>
+                    <strong>#SRV-1040 · Elektrik bakımı</strong>
+                    <p>Duru Sitesi · Selin Yılmaz</p>
+                  </div>
+                  <span class="delay-time">4 saat</span>
+                </article>
+              </div>
+            </section>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="UstaFlow Lite teknik personel görev ekranı görsel taslağı"
+    />
+    <title>UstaFlow Lite — Teknik Personel Görev Ekranı</title>
+    <link rel="stylesheet" href="./technician-task-page.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="UstaFlow Lite ana sayfa">
+          <img src="../assets/logo/ustaflow-mark.svg" width="40" height="40" alt="" />
+          <span>UstaFlow <small>Lite</small></span>
+        </a>
+
+        <nav class="quick-nav" aria-label="Teknik personel menüsü">
+          <a class="active" href="#">Görevlerim <span>6</span></a>
+          <a href="#">Takvim</a>
+          <a href="#">Servis Geçmişi</a>
+        </nav>
+
+        <div class="topbar-right">
+          <div class="day-status"><i></i><span>Sahada</span></div>
+          <button class="notification" type="button" aria-label="Bildirimler"><span>●</span></button>
+          <div class="profile">
+            <span class="avatar">EK</span>
+            <span><strong>Emre Kaya</strong><small>Teknik Personel</small></span>
+            <b>⌄</b>
+          </div>
+        </div>
+      </header>
+
+      <main class="workspace">
+        <aside class="task-queue">
+          <div class="queue-header">
+            <div>
+              <p>28 Temmuz · Salı</p>
+              <h1>Görevlerim</h1>
+            </div>
+            <span class="queue-count">6 görev</span>
+          </div>
+
+          <div class="queue-filter">
+            <button class="active" type="button">Bugün <span>4</span></button>
+            <button type="button">Yaklaşan <span>2</span></button>
+            <button type="button">Tamamlanan</button>
+          </div>
+
+          <div class="task-list">
+            <article class="task-item selected">
+              <div class="task-item-top">
+                <span class="request-no">#SRV-1048</span>
+                <span class="priority high">Yüksek</span>
+              </div>
+              <h2>Kombi basınç sorunu</h2>
+              <p>Yıldız Apartmanı</p>
+              <footer>
+                <span class="task-time">10:30</span>
+                <span class="task-status progress"><i></i> Devam Ediyor</span>
+              </footer>
+            </article>
+
+            <article class="task-item">
+              <div class="task-item-top">
+                <span class="request-no">#SRV-1051</span>
+                <span class="priority normal">Normal</span>
+              </div>
+              <h2>Klima yıllık bakımı</h2>
+              <p>Mavi Ofis</p>
+              <footer>
+                <span class="task-time">13:00</span>
+                <span class="task-status planned"><i></i> Planlandı</span>
+              </footer>
+            </article>
+
+            <article class="task-item">
+              <div class="task-item-top">
+                <span class="request-no">#SRV-1054</span>
+                <span class="priority urgent">Acil</span>
+              </div>
+              <h2>Elektrik panosu arızası</h2>
+              <p>Nova Plaza</p>
+              <footer>
+                <span class="task-time">15:30</span>
+                <span class="task-status waiting"><i></i> Bekliyor</span>
+              </footer>
+            </article>
+
+            <article class="task-item">
+              <div class="task-item-top">
+                <span class="request-no">#SRV-1057</span>
+                <span class="priority low">Düşük</span>
+              </div>
+              <h2>Petek kontrolü</h2>
+              <p>Ardıç Residence</p>
+              <footer>
+                <span class="task-time">17:00</span>
+                <span class="task-status planned"><i></i> Planlandı</span>
+              </footer>
+            </article>
+          </div>
+
+          <div class="queue-summary">
+            <span><strong>3</strong> Tamamlanan</span>
+            <i></i>
+            <span><strong>4 sa 20 dk</strong> Sahada geçen</span>
+          </div>
+        </aside>
+
+        <section class="task-detail">
+          <header class="detail-header">
+            <div>
+              <div class="detail-tags">
+                <span>#SRV-1048</span>
+                <span class="priority high">Yüksek Öncelik</span>
+                <span class="task-status progress"><i></i> Devam Ediyor</span>
+              </div>
+              <h2>Kombi basınç sorunu</h2>
+              <p>Bugün, 10:30 için planlandı · Atanan: Emre Kaya</p>
+            </div>
+            <div class="task-duration">
+              <small>Görev süresi</small>
+              <strong>01:24:36</strong>
+              <span>Başlangıç 09:42</span>
+            </div>
+          </header>
+
+          <div class="action-strip" aria-label="Görev işlemleri">
+            <button class="action-button muted" type="button"><i class="route"></i>Yola Çıktım</button>
+            <button class="action-button active" type="button"><i class="play"></i>İşleme Başladım</button>
+            <button class="action-button warning" type="button"><i class="pause"></i>Beklemeye Al</button>
+            <button class="action-button complete" type="button"><i class="check"></i>Görevi Tamamla</button>
+          </div>
+
+          <div class="detail-grid">
+            <section class="panel customer-panel">
+              <div class="panel-heading">
+                <div><span class="panel-icon">M</span><h3>Müşteri ve Servis Bilgileri</h3></div>
+                <div class="contact-buttons">
+                  <button type="button"><i class="phone"></i>Müşteriyi Ara</button>
+                  <button class="map" type="button"><i class="pin"></i>Haritada Aç</button>
+                </div>
+              </div>
+
+              <div class="customer-content">
+                <div class="customer-card">
+                  <span class="customer-avatar">YA</span>
+                  <div><strong>Yıldız Apartmanı</strong><small>Yetkili: Ayşe Yıldız</small></div>
+                </div>
+                <dl>
+                  <div><dt>Telefon numarası</dt><dd>+90 532 555 24 18</dd></div>
+                  <div><dt>Servis adresi</dt><dd>Bağdat Cad. No: 124, Kadıköy / İstanbul</dd></div>
+                  <div><dt>Randevu</dt><dd>28 Temmuz 2026 · 10:30</dd></div>
+                  <div><dt>Atanan teknik personel</dt><dd>Emre Kaya · Isıtma Sistemleri</dd></div>
+                </dl>
+                <div class="issue-box">
+                  <span>Arıza veya talep açıklaması</span>
+                  <p>Kombi basıncı gün içinde düşüyor ve cihaz uyarı veriyor. Yerinde kontrol ve basınç hattının incelenmesi talep ediliyor.</p>
+                </div>
+              </div>
+            </section>
+
+            <section class="panel timeline-panel">
+              <div class="panel-heading">
+                <div><span class="panel-icon">Z</span><h3>Görev Durumu</h3></div>
+                <span class="live-badge"><i></i> Canlı</span>
+              </div>
+              <ol class="timeline">
+                <li class="done"><span>✓</span><div><strong>Görev atandı</strong><small>08:45 · Operasyon</small></div></li>
+                <li class="done"><span>✓</span><div><strong>Yola çıkıldı</strong><small>09:18 · Emre Kaya</small></div></li>
+                <li class="current"><span>3</span><div><strong>İşlem başladı</strong><small>09:42 · 1 sa 24 dk</small></div></li>
+                <li><span>4</span><div><strong>Servis raporu</strong><small>Bekleniyor</small></div></li>
+                <li><span>5</span><div><strong>Tamamlandı</strong><small>Bekleniyor</small></div></li>
+              </ol>
+            </section>
+
+            <section class="panel report-panel">
+              <div class="panel-heading">
+                <div><span class="panel-icon">R</span><h3>Servis Raporu</h3></div>
+                <span class="autosave"><i></i> Taslak</span>
+              </div>
+              <form action="#" method="post">
+                <label class="field">
+                  <span>Yapılan işlem</span>
+                  <textarea rows="2">Genleşme tankı basıncı kontrol edildi. Tesisat basıncı düzenlendi ve kaçak kontrolü yapıldı.</textarea>
+                </label>
+                <label class="field">
+                  <span>Kullanılan malzemeler</span>
+                  <input type="text" value="1 adet vana contası, sızdırmazlık bandı" />
+                </label>
+                <label class="field">
+                  <span>Teknik servis notu</span>
+                  <textarea rows="2" placeholder="Servis sonu gözlem ve önerilerinizi ekleyin..."></textarea>
+                </label>
+                <label class="informed">
+                  <input type="checkbox" checked />
+                  <span><i>✓</i>Müşteri yapılan işlem hakkında bilgilendirildi</span>
+                </label>
+              </form>
+            </section>
+
+            <div class="side-stack">
+              <section class="panel upload-panel">
+                <div class="panel-heading">
+                  <div><span class="panel-icon">E</span><h3>Fotoğraf ve Belgeler</h3></div>
+                  <span>2 dosya</span>
+                </div>
+                <div class="upload-zone">
+                  <span class="upload-icon">＋</span>
+                  <div><strong>Fotoğraf veya belge ekle</strong><small>PNG, JPG veya PDF · En fazla 10 MB</small></div>
+                </div>
+                <div class="file-row">
+                  <span class="file-thumb">IMG</span>
+                  <div><strong>kombi-oncesi.jpg</strong><small>1.2 MB</small></div>
+                  <b>✓</b>
+                </div>
+              </section>
+
+              <section class="panel history-panel">
+                <div class="panel-heading">
+                  <div><span class="panel-icon">G</span><h3>Geçmiş Servis Kayıtları</h3></div>
+                  <a href="#">Tümünü gör</a>
+                </div>
+                <article><span>12 May</span><div><strong>Yıllık kombi bakımı</strong><small>#SRV-0894 · Tamamlandı</small></div></article>
+                <article><span>08 Oca</span><div><strong>Petek hava alma</strong><small>#SRV-0721 · Tamamlandı</small></div></article>
+              </section>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
