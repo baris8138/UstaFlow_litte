@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 128" role="img" aria-labelledby="title desc">
+  <title id="title">UstaFlow Lite yatay logosu</title>
+  <desc id="desc">Akış ve teknik servis simgesiyle UstaFlow Lite kelime markasını birleştiren yatay logo.</desc>
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="#020617"/>
+  <path d="M35 39h27c10 0 18 8 18 18v2" fill="none" stroke="#2DD4BF" stroke-width="8" stroke-linecap="round"/>
+  <path d="M80 45l14 14-14 14" fill="none" stroke="#2DD4BF" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="31" cy="39" r="9" fill="#F8FAFC"/>
+  <circle cx="31" cy="89" r="9" fill="#2DD4BF"/>
+  <path d="M31 80V67c0-7 6-13 13-13h8" fill="none" stroke="#F8FAFC" stroke-width="8" stroke-linecap="round"/>
+  <path d="M55 70a17 17 0 0 0 22 21l15 15a8 8 0 0 0 11-11L88 80a17 17 0 0 0-21-22l11 11-12 12-11-11Z" fill="#F8FAFC"/>
+  <path d="M94 95l4 4" fill="none" stroke="#020617" stroke-width="5" stroke-linecap="round"/>
+  <text x="145" y="76" fill="#020617" font-family="Arial, Helvetica, sans-serif" font-size="48" font-weight="700" letter-spacing="-1">UstaFlow</text>
+  <text x="371" y="76" fill="#2DD4BF" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700">Lite</text>
+  <path d="M147 91h274" fill="none" stroke="#2DD4BF" stroke-width="5" stroke-linecap="round"/>
+  <path d="M421 84l9 7-9 7" fill="none" stroke="#2DD4BF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
