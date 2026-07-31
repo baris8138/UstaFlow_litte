@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { redirect } from "next/navigation";
+
+import { auth } from "@/auth";
 
 import { LoginForm } from "./login-form";
 import styles from "./login.module.css";
@@ -15,7 +18,13 @@ const flowSteps = [
   ["03", "İş tamamlandı", "Servis raporu hazır"],
 ] as const;
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  const session = await auth();
+
+  if (session?.user) {
+    redirect("/dashboard");
+  }
+
   return (
     <main className={styles.loginShell}>
       <section className={styles.introPanel} aria-labelledby="intro-title">
