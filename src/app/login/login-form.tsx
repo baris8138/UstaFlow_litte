@@ -1,13 +1,49 @@
 "use client";
 
-import type { FormEvent } from "react";
 import Image from "next/image";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { type FormEvent, useState } from "react";
 
 import styles from "./login.module.css";
 
 export function LoginForm() {
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (isSubmitting) {
+      return;
+    }
+
+    setError(null);
+    setIsSubmitting(true);
+
+    try {
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
+      });
+
+      if (!result.ok) {
+        setError("E-posta veya parola hatalı.");
+        return;
+      }
+
+      router.push("/dashboard");
+      router.refresh();
+    } catch {
+      setError("E-posta veya parola hatalı.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -37,6 +73,9 @@ export function LoginForm() {
             type="email"
             autoComplete="email"
             placeholder="ornek@ustaflow.com"
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
+            disabled={isSubmitting}
             required
           />
         </div>
@@ -53,17 +92,37 @@ export function LoginForm() {
             type="password"
             autoComplete="current-password"
             placeholder="Parolanızı girin"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            disabled={isSubmitting}
             required
           />
         </div>
 
         <label className={styles.remember}>
-          <input type="checkbox" name="remember" autoComplete="off" />
+          <input
+            type="checkbox"
+            name="remember"
+            checked={rememberMe}
+            onChange={(event) => setRememberMe(event.target.checked)}
+            disabled={isSubmitting}
+          />
           <span>Beni hatırla</span>
         </label>
 
-        <button className={styles.submitButton} type="submit">
-          Giriş Yap <span aria-hidden="true">→</span>
+        {error ? (
+          <p className={styles.errorMessage} role="alert">
+            {error}
+          </p>
+        ) : null}
+
+        <button
+          className={styles.submitButton}
+          type="submit"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "Giriş yapılıyor..." : "Giriş Yap"}
+          {!isSubmitting ? <span aria-hidden="true">→</span> : null}
         </button>
       </form>
 

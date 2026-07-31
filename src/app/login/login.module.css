@@ -78,9 +78,12 @@
 .remember { display: inline-flex; align-items: center; gap: 9px; margin: 19px 0 22px; cursor: pointer; }
 .remember input { width: 17px; height: 17px; margin: 0; accent-color: var(--turquoise-dark); }
 .remember span { color: var(--slate); font-size: 13px; font-weight: 600; }
+.errorMessage { margin: -8px 0 16px; color: #b91c1c; font-size: 13px; font-weight: 600; line-height: 1.5; }
 .submitButton { display: flex; width: 100%; min-height: 52px; align-items: center; justify-content: center; gap: 12px; border: 0; border-radius: 12px; color: var(--navy); background: var(--turquoise); box-shadow: 0 10px 24px rgb(45 212 191 / 22%); font: inherit; font-size: 14px; font-weight: 800; cursor: pointer; transition: transform 160ms ease, box-shadow 160ms ease, background 160ms ease; }
 .submitButton:hover { background: #5eead4; box-shadow: 0 13px 28px rgb(45 212 191 / 28%); transform: translateY(-1px); }
 .submitButton:active { transform: translateY(0); }
+.submitButton:disabled { cursor: wait; opacity: 0.72; transform: none; }
+.inputWrap:has(input:disabled), .remember:has(input:disabled) { cursor: not-allowed; opacity: 0.65; }
 .submitButton:focus-visible, .loginShell a:focus-visible, .loginShell input:focus-visible { outline: 3px solid rgb(45 212 191 / 45%); outline-offset: 3px; }
 .support { margin: 26px 0 0; color: var(--slate); font-size: 12px; text-align: center; }
 
