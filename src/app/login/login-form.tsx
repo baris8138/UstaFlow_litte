@@ -1,10 +1,10 @@
 "use client";
 
 import Image from "next/image";
-import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { type FormEvent, useState } from "react";
 
+import { loginWithCredentials } from "./actions";
 import styles from "./login.module.css";
 
 export function LoginForm() {
@@ -26,21 +26,15 @@ export function LoginForm() {
     setIsSubmitting(true);
 
     try {
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
+      const result = await loginWithCredentials(email, password);
 
-      if (!result.ok) {
-        setError("E-posta veya parola hatalı.");
+      if (!result.success) {
+        setError(result.error);
         return;
       }
 
-      router.push("/dashboard");
+      router.replace("/dashboard");
       router.refresh();
-    } catch {
-      setError("E-posta veya parola hatalı.");
     } finally {
       setIsSubmitting(false);
     }
