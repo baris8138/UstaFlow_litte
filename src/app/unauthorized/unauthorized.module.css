@@ -3,10 +3,10 @@
   --navy-soft: #0f172a;
   --slate: #475569;
   --line: #e2e8f0;
-  --surface: #ffffff;
   --turquoise: #2dd4bf;
   --turquoise-dark: #0f766e;
   display: grid;
+  min-width: 320px;
   min-height: 100vh;
   padding: clamp(24px, 6vw, 72px);
   place-items: center;
@@ -17,7 +17,7 @@
 }
 
 .card {
-  width: min(100%, 720px);
+  width: min(100%, 640px);
   padding: clamp(28px, 6vw, 56px);
   border: 1px solid rgb(226 232 240 / 90%);
   border-radius: 28px;
@@ -27,15 +27,15 @@
 
 .logo {
   display: block;
-  width: min(100%, 260px);
+  width: min(100%, 220px);
   height: auto;
 }
 
-.heading {
-  margin-top: clamp(36px, 7vw, 64px);
+.content {
+  margin-top: clamp(36px, 7vw, 58px);
 }
 
-.heading > p {
+.eyebrow {
   margin: 0 0 12px;
   color: var(--turquoise-dark);
   font-size: 12px;
@@ -44,67 +44,27 @@
   text-transform: uppercase;
 }
 
-.heading h1 {
+.content h1 {
+  max-width: 540px;
   margin: 0;
-  font-size: clamp(32px, 6vw, 52px);
-  line-height: 1.08;
+  font-size: clamp(30px, 6vw, 48px);
+  line-height: 1.1;
   letter-spacing: -0.045em;
 }
 
-.heading > span {
-  display: block;
-  max-width: 570px;
-  margin-top: 18px;
+.content > p:last-child {
+  margin: 18px 0 0;
   color: var(--slate);
   font-size: 15px;
   line-height: 1.7;
 }
 
-.profile {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin: 36px 0 0;
-}
-
-.profile div {
-  min-width: 0;
-  padding: 18px;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: #f8fafc;
-}
-
-.profile dt {
-  color: var(--slate);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.profile dd {
-  margin: 8px 0 0;
-  overflow-wrap: anywhere;
-  color: var(--navy-soft);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.5;
-}
-
-.profile div:last-child dd {
-  color: var(--turquoise-dark);
-}
-
-.roleLink {
-  display: flex;
-  width: fit-content;
-  max-width: 100%;
+.link {
+  display: inline-flex;
   min-height: 46px;
-  box-sizing: border-box;
   align-items: center;
   justify-content: center;
-  margin-top: 24px;
+  margin-top: 32px;
   padding: 11px 20px;
   border-radius: 12px;
   color: var(--navy-soft);
@@ -112,8 +72,6 @@
   box-shadow: 0 10px 24px rgb(45 212 191 / 22%);
   font-size: 14px;
   font-weight: 800;
-  line-height: 1.4;
-  text-align: center;
   text-decoration: none;
   transition:
     background-color 160ms ease,
@@ -121,13 +79,13 @@
     transform 160ms ease;
 }
 
-.roleLink:hover {
-  background: #14b8a6;
+.link:hover {
+  background: #5eead4;
   box-shadow: 0 13px 28px rgb(45 212 191 / 28%);
   transform: translateY(-1px);
 }
 
-.roleLink:focus-visible {
+.link:focus-visible {
   outline: 3px solid rgb(45 212 191 / 45%);
   outline-offset: 3px;
 }
@@ -142,18 +100,14 @@
     border-radius: 22px;
   }
 
-  .profile {
-    grid-template-columns: 1fr;
-    margin-top: 28px;
-  }
-
-  .roleLink {
+  .link {
     width: 100%;
+    margin-top: 28px;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .roleLink {
+  .link {
     transition: none;
   }
 }
