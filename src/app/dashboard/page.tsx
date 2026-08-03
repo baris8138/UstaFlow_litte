@@ -3,6 +3,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
+import { SignOutButton } from "@/components/auth/sign-out-button";
 
 import styles from "./dashboard.module.css";
 
@@ -55,6 +56,8 @@ export default async function DashboardPage() {
             <dd>{role}</dd>
           </div>
         </dl>
+
+        <SignOutButton />
       </section>
     </main>
   );
