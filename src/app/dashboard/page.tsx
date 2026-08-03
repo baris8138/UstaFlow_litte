@@ -59,9 +59,13 @@ export default async function DashboardPage() {
         </dl>
 
         {role === "ADMIN" ? (
-          <Link href="/admin">Yönetici alanına git</Link>
+          <Link className={styles.roleLink} href="/admin">
+            Yönetici alanına git
+          </Link>
         ) : role === "TECHNICIAN" ? (
-          <Link href="/technician">Teknik personel alanına git</Link>
+          <Link className={styles.roleLink} href="/technician">
+            Teknik personel alanına git
+          </Link>
         ) : null}
 
         <SignOutButton />

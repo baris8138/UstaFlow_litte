@@ -96,6 +96,42 @@
   color: var(--turquoise-dark);
 }
 
+.roleLink {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  min-height: 46px;
+  box-sizing: border-box;
+  align-items: center;
+  justify-content: center;
+  margin-top: 24px;
+  padding: 11px 20px;
+  border-radius: 12px;
+  color: var(--navy-soft);
+  background: var(--turquoise);
+  box-shadow: 0 10px 24px rgb(45 212 191 / 22%);
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.4;
+  text-align: center;
+  text-decoration: none;
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.roleLink:hover {
+  background: #14b8a6;
+  box-shadow: 0 13px 28px rgb(45 212 191 / 28%);
+  transform: translateY(-1px);
+}
+
+.roleLink:focus-visible {
+  outline: 3px solid rgb(45 212 191 / 45%);
+  outline-offset: 3px;
+}
+
 @media (max-width: 620px) {
   .page {
     padding: 16px;
@@ -109,5 +145,15 @@
   .profile {
     grid-template-columns: 1fr;
     margin-top: 28px;
+  }
+
+  .roleLink {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .roleLink {
+    transition: none;
   }
 }
