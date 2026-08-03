@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { auth } from "@/auth";
@@ -56,6 +57,12 @@ export default async function DashboardPage() {
             <dd>{role}</dd>
           </div>
         </dl>
+
+        {role === "ADMIN" ? (
+          <Link href="/admin">Yönetici alanına git</Link>
+        ) : role === "TECHNICIAN" ? (
+          <Link href="/technician">Teknik personel alanına git</Link>
+        ) : null}
 
         <SignOutButton />
       </section>
