@@ -17,6 +17,11 @@ enum UserRole {
   TECHNICIAN
 }
 
+enum CustomerType {
+  INDIVIDUAL
+  CORPORATE
+}
+
 model User {
   id           String   @id @default(uuid())
   firstName    String
@@ -29,4 +34,23 @@ model User {
   updatedAt    DateTime @updatedAt
 
   @@map("users")
+}
+
+model Customer {
+  id          String       @id @default(uuid())
+  name        String
+  type        CustomerType @default(INDIVIDUAL)
+  phone       String?      @unique
+  email       String?      @unique
+  addressLine String?
+  city        String?
+  district    String?
+  postalCode  String?
+  isActive    Boolean      @default(true)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@index([name])
+  @@index([type, isActive])
+  @@map("customers")
 }
