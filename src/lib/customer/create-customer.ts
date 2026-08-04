@@ -1,21 +1,12 @@
 import { Prisma } from "@/generated/prisma/client";
 import { customerCreateSchema } from "@/lib/customer/customer-input";
+import {
+  customerViewSelect,
+  type CustomerView,
+} from "@/lib/customer/customer-view";
 import { prisma } from "@/lib/prisma";
 
-export type CustomerView = {
-  id: string;
-  name: string;
-  type: "INDIVIDUAL" | "CORPORATE";
-  phone: string | null;
-  email: string | null;
-  addressLine: string | null;
-  city: string | null;
-  district: string | null;
-  postalCode: string | null;
-  isActive: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-};
+export type { CustomerView } from "@/lib/customer/customer-view";
 
 export type CreateCustomerResult =
   | {
@@ -26,21 +17,6 @@ export type CreateCustomerResult =
       success: false;
       code: "INVALID_INPUT" | "DUPLICATE_EMAIL" | "DUPLICATE_PHONE";
     };
-
-const customerViewSelect = {
-  id: true,
-  name: true,
-  type: true,
-  phone: true,
-  email: true,
-  addressLine: true,
-  city: true,
-  district: true,
-  postalCode: true,
-  isActive: true,
-  createdAt: true,
-  updatedAt: true,
-};
 
 function metadataMentionsField(value: unknown, field: string): boolean {
   if (typeof value === "string") {
