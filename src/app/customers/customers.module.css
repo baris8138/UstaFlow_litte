@@ -25,6 +25,11 @@
   margin: 0 auto;
 }
 
+.editShell {
+  width: min(100%, 960px);
+  margin: 0 auto;
+}
+
 .header {
   display: flex;
   align-items: flex-end;
@@ -71,6 +76,26 @@
 .backLink:hover {
   border-color: var(--turquoise);
   background: var(--surface);
+}
+
+.editActiveStatus,
+.editInactiveStatus {
+  display: inline-flex;
+  margin-left: 12px;
+  padding: 5px 9px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.editActiveStatus {
+  color: #065f46;
+  background: #d1fae5;
+}
+
+.editInactiveStatus {
+  color: #475569;
+  background: #e2e8f0;
 }
 
 .form,
@@ -277,6 +302,93 @@
 .tableWrap .customerName {
   color: var(--navy-soft);
   font-weight: 750;
+}
+
+.tableActions {
+  display: flex;
+  min-width: 230px;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.editLink,
+.deactivateButton,
+.activateButton {
+  display: inline-flex;
+  min-height: 38px;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 12px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.editLink {
+  border-color: #99f6e4;
+  color: var(--turquoise-dark);
+  background: #f0fdfa;
+}
+
+.deactivateButton {
+  border-color: #fecaca;
+  color: #991b1b;
+  background: #fef2f2;
+}
+
+.activateButton {
+  border-color: #a7f3d0;
+  color: #065f46;
+  background: #ecfdf5;
+}
+
+.editLink:hover,
+.activateButton:hover:not(:disabled),
+.deactivateButton:hover:not(:disabled) {
+  filter: brightness(0.97);
+}
+
+.editLink:focus-visible,
+.activateButton:focus-visible,
+.deactivateButton:focus-visible {
+  outline: 3px solid rgb(45 212 191 / 30%);
+  outline-offset: 2px;
+}
+
+.activateButton:disabled,
+.deactivateButton:disabled {
+  cursor: wait;
+  opacity: 0.68;
+}
+
+.statusForm {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 7px;
+}
+
+.statusSuccessMessage,
+.statusErrorMessage {
+  max-width: 220px;
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.statusSuccessMessage {
+  color: #065f46;
+}
+
+.statusErrorMessage {
+  color: #991b1b;
 }
 
 .activeBadge,
