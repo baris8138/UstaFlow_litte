@@ -22,6 +22,22 @@ enum CustomerType {
   CORPORATE
 }
 
+enum ServiceRequestStatus {
+  OPEN
+  ASSIGNED
+  IN_PROGRESS
+  ON_HOLD
+  COMPLETED
+  CANCELLED
+}
+
+enum ServiceRequestPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
 model User {
   id           String   @id @default(uuid())
   firstName    String
@@ -32,6 +48,8 @@ model User {
   isActive     Boolean  @default(true)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+
+  assignedServiceRequests ServiceRequest[] @relation("TechnicianServiceRequests")
 
   @@map("users")
 }
@@ -50,7 +68,31 @@ model Customer {
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
 
+  serviceRequests ServiceRequest[]
+
   @@index([name])
   @@index([type, isActive])
   @@map("customers")
+}
+
+model ServiceRequest {
+  id           String                 @id @default(uuid())
+  customerId   String
+  technicianId String?
+  title        String                 @db.VarChar(160)
+  description  String                 @db.Text
+  status       ServiceRequestStatus   @default(OPEN)
+  priority     ServiceRequestPriority @default(MEDIUM)
+  scheduledAt  DateTime?
+  createdAt    DateTime               @default(now())
+  updatedAt    DateTime               @updatedAt
+
+  customer   Customer @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  technician User?    @relation("TechnicianServiceRequests", fields: [technicianId], references: [id], onDelete: SetNull)
+
+  @@index([customerId, createdAt])
+  @@index([technicianId, status])
+  @@index([status, priority])
+  @@index([createdAt])
+  @@map("service_requests")
 }
