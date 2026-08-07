@@ -5,6 +5,7 @@ import { requireRole } from "@/lib/auth/access-control";
 import { listCustomers } from "@/lib/customer/list-customers";
 
 import { CustomerForm } from "./customer-form";
+import { CustomerStatusForm } from "./customer-status-form";
 import styles from "./customers.module.css";
 
 export const metadata: Metadata = {
@@ -65,6 +66,7 @@ export default async function CustomersPage() {
                     <th scope="col">Konum</th>
                     <th scope="col">Durum</th>
                     <th scope="col">Oluşturulma</th>
+                    <th scope="col">İşlemler</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -96,6 +98,20 @@ export default async function CustomersPage() {
                           </span>
                         </td>
                         <td>{dateFormatter.format(customer.createdAt)}</td>
+                        <td>
+                          <div className={styles.tableActions}>
+                            <Link
+                              className={styles.editLink}
+                              href={`/customers/${customer.id}/edit`}
+                            >
+                              Düzenle
+                            </Link>
+                            <CustomerStatusForm
+                              customerId={customer.id}
+                              isActive={customer.isActive}
+                            />
+                          </div>
+                        </td>
                       </tr>
                     );
                   })}
