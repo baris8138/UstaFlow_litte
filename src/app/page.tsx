@@ -1,4 +1,11 @@
-export default function Home() {
+import Link from "next/link";
+
+import { auth } from "@/auth";
+
+export default async function Home() {
+  const session = await auth();
+  const isAuthenticated = Boolean(session?.user);
+
   return (
     <main className="flex min-h-screen items-center bg-slate-950 px-6 py-16 text-white">
       <div className="mx-auto w-full max-w-5xl">
@@ -15,6 +22,20 @@ export default function Home() {
           atamalarını ve görev durumlarını takip etmek isteyen teknik servis ve
           saha ekipleri için geliştirilmiştir.
         </p>
+
+        <div className="mt-8 flex max-w-full flex-col items-start gap-3 sm:flex-row sm:items-center">
+          <Link
+            className="inline-flex min-h-12 max-w-full items-center justify-center rounded-xl bg-emerald-400 px-6 py-3 text-center text-base font-bold text-slate-950 shadow-lg shadow-emerald-400/20 transition hover:-translate-y-0.5 hover:bg-emerald-300 hover:shadow-xl hover:shadow-emerald-400/25 focus-visible:outline-3 focus-visible:outline-offset-4 focus-visible:outline-emerald-300 motion-reduce:transform-none motion-reduce:transition-none"
+            href={isAuthenticated ? "/dashboard" : "/login"}
+          >
+            {isAuthenticated ? "Yönetim Paneline Git" : "Giriş Yap"}
+          </Link>
+          <span className="max-w-full text-sm leading-6 text-slate-400">
+            {isAuthenticated
+              ? "Operasyonlarınızı yönetmeye devam edin."
+              : "Yönetim paneline giriş yapın ve operasyonlarınızı yönetin."}
+          </span>
+        </div>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-3">
           {[

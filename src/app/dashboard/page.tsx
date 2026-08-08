@@ -59,9 +59,46 @@ export default async function DashboardPage() {
         </dl>
 
         {role === "ADMIN" ? (
-          <Link className={styles.roleLink} href="/admin">
-            Yönetici alanına git
-          </Link>
+          <>
+            <Link className={styles.roleLink} href="/admin">
+              Yönetici alanına git
+            </Link>
+
+            <section
+              className={styles.management}
+              aria-labelledby="management-title"
+            >
+              <div className={styles.managementHeading}>
+                <p>Yönetim</p>
+                <h2 id="management-title">Operasyon alanları</h2>
+              </div>
+
+              <div className={styles.managementGrid}>
+                <Link className={styles.managementCard} href="/customers">
+                  <span className={styles.cardTitle}>Müşteri Yönetimi</span>
+                  <span className={styles.cardDescription}>
+                    Müşteri kayıtlarını oluşturun, güncelleyin ve aktiflik
+                    durumlarını yönetin.
+                  </span>
+                  <span className={styles.cardCta}>Müşterilere git</span>
+                </Link>
+
+                <Link
+                  className={styles.managementCard}
+                  href="/service-requests"
+                >
+                  <span className={styles.cardTitle}>Servis Talepleri</span>
+                  <span className={styles.cardDescription}>
+                    Müşteriler adına oluşturulan servis taleplerini görüntüleyin
+                    ve yeni talepler oluşturun.
+                  </span>
+                  <span className={styles.cardCta}>
+                    Servis taleplerine git
+                  </span>
+                </Link>
+              </div>
+            </section>
+          </>
         ) : role === "TECHNICIAN" ? (
           <Link className={styles.roleLink} href="/technician">
             Teknik personel alanına git
