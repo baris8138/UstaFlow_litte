@@ -4,9 +4,11 @@ import Link from "next/link";
 import { requireRole } from "@/lib/auth/access-control";
 import { listCustomers } from "@/lib/customer/list-customers";
 import { listServiceRequests } from "@/lib/service-request/list-service-requests";
+import { listActiveTechnicians } from "@/lib/technician/list-active-technicians";
 
 import { ServiceRequestForm } from "./service-request-form";
 import styles from "./service-requests.module.css";
+import { TechnicianAssignmentForm } from "./technician-assignment-form";
 
 export const metadata: Metadata = {
   title: "Servis Talepleri | UstaFlow Lite",
@@ -36,9 +38,10 @@ const statusLabels = {
 export default async function ServiceRequestsPage() {
   await requireRole(["ADMIN"]);
 
-  const [customers, serviceRequests] = await Promise.all([
+  const [customers, serviceRequests, technicians] = await Promise.all([
     listCustomers({ activeOnly: true }),
     listServiceRequests(),
+    listActiveTechnicians(),
   ]);
   const customerOptions = customers.map(({ id, name, type }) => ({
     id,
@@ -99,6 +102,7 @@ export default async function ServiceRequestsPage() {
                     <th scope="col">Müşteri</th>
                     <th scope="col">Öncelik</th>
                     <th scope="col">Durum</th>
+                    <th scope="col">Teknisyen</th>
                     <th scope="col">Planlanan tarih</th>
                     <th scope="col">Oluşturulma</th>
                   </tr>
@@ -138,6 +142,25 @@ export default async function ServiceRequestsPage() {
                         >
                           {statusLabels[request.status]}
                         </span>
+                      </td>
+                      <td className={styles.technicianCell}>
+                        {request.technician ? (
+                          <span className={styles.technicianInfo}>
+                            <strong>
+                              {request.technician.firstName}{" "}
+                              {request.technician.lastName}
+                            </strong>
+                            <small>{request.technician.email}</small>
+                          </span>
+                        ) : (
+                          <span className={styles.unassigned}>Atanmadı</span>
+                        )}
+                        <TechnicianAssignmentForm
+                          key={request.technicianId ?? "unassigned"}
+                          serviceRequestId={request.id}
+                          currentTechnicianId={request.technicianId}
+                          technicians={technicians}
+                        />
                       </td>
                       <td>
                         {request.scheduledAt
