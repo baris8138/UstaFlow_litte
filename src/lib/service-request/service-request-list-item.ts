@@ -1,4 +1,5 @@
 import type { Prisma } from "@/generated/prisma/client";
+import { technicianListItemSelect } from "@/lib/technician/technician-list-item";
 
 export const serviceRequestListItemSelect = {
   id: true,
@@ -18,6 +19,9 @@ export const serviceRequestListItemSelect = {
       type: true,
       isActive: true,
     },
+  },
+  technician: {
+    select: technicianListItemSelect,
   },
 } satisfies Prisma.ServiceRequestSelect;
 
