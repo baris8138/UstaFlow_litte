@@ -17,7 +17,7 @@
 }
 
 .card {
-  width: min(100%, 720px);
+  width: min(100%, 920px);
   padding: clamp(28px, 6vw, 56px);
   border: 1px solid rgb(226 232 240 / 90%);
   border-radius: 28px;
@@ -132,6 +132,96 @@
   outline-offset: 3px;
 }
 
+.management {
+  margin-top: 36px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+}
+
+.managementHeading > p {
+  margin: 0 0 8px;
+  color: var(--turquoise-dark);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.managementHeading h2 {
+  margin: 0;
+  color: var(--navy-soft);
+  font-size: clamp(22px, 3vw, 28px);
+  letter-spacing: -0.035em;
+}
+
+.managementGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.managementCard {
+  display: flex;
+  min-width: 0;
+  min-height: 220px;
+  flex-direction: column;
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  color: var(--navy-soft);
+  background: #f8fafc;
+  box-shadow: 0 12px 30px rgb(15 23 42 / 7%);
+  text-decoration: none;
+  transition:
+    border-color 160ms ease,
+    background-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.managementCard:hover {
+  border-color: var(--turquoise);
+  background: var(--surface);
+  box-shadow: 0 16px 34px rgb(15 23 42 / 11%);
+  transform: translateY(-2px);
+}
+
+.managementCard:focus-visible {
+  border-color: var(--turquoise-dark);
+  outline: 3px solid rgb(45 212 191 / 38%);
+  outline-offset: 3px;
+}
+
+.cardTitle {
+  font-size: 19px;
+  font-weight: 800;
+  line-height: 1.3;
+}
+
+.cardDescription {
+  margin-top: 12px;
+  color: var(--slate);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.cardCta {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: 22px;
+  color: var(--turquoise-dark);
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.cardCta::after {
+  margin-left: 8px;
+  content: "\2192";
+}
+
 @media (max-width: 620px) {
   .page {
     padding: 16px;
@@ -150,10 +240,25 @@
   .roleLink {
     width: 100%;
   }
+
+  .management {
+    margin-top: 30px;
+    padding-top: 26px;
+  }
+
+  .managementGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .managementCard {
+    min-height: 0;
+    padding: 22px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .roleLink {
+  .roleLink,
+  .managementCard {
     transition: none;
   }
 }
