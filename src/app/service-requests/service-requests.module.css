@@ -259,7 +259,7 @@
 
 .tableWrap table {
   width: 100%;
-  min-width: 1120px;
+  min-width: 1380px;
   border-collapse: collapse;
   text-align: left;
 }
@@ -296,6 +296,109 @@
 .descriptionPreview,
 .customerMeta {
   display: block;
+}
+
+.technicianCell {
+  width: 280px;
+}
+
+.technicianInfo,
+.technicianInfo strong,
+.technicianInfo small {
+  display: block;
+}
+
+.technicianInfo strong {
+  color: var(--navy-soft);
+  font-weight: 750;
+}
+
+.technicianInfo small,
+.unassigned {
+  margin-top: 4px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.assignmentForm {
+  display: grid;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.assignmentForm label,
+.assignmentForm select,
+.assignmentForm button {
+  width: 100%;
+}
+
+.assignmentForm select,
+.assignmentForm button {
+  min-height: 36px;
+  border-radius: 9px;
+  font: inherit;
+  font-size: 12px;
+}
+
+.assignmentForm select {
+  min-width: 0;
+  padding: 7px 9px;
+  border: 1px solid var(--line);
+  color: var(--navy-soft);
+  background: var(--surface-soft);
+}
+
+.assignmentForm button {
+  padding: 8px 11px;
+  border: 0;
+  color: var(--navy-soft);
+  background: var(--turquoise);
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.assignmentForm button:hover:not(:disabled) {
+  background: #5eead4;
+}
+
+.assignmentForm select:focus-visible,
+.assignmentForm button:focus-visible {
+  outline: 3px solid rgb(45 212 191 / 35%);
+  outline-offset: 2px;
+}
+
+.assignmentForm button:disabled,
+.assignmentForm select:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.assignmentSuccess,
+.assignmentError {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 1.4;
+}
+
+.assignmentSuccess {
+  color: #065f46;
+}
+
+.assignmentError {
+  color: #991b1b;
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  border: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 .requestTitle,
