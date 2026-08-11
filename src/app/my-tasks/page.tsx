@@ -5,6 +5,7 @@ import { requireRole } from "@/lib/auth/access-control";
 import { listAssignedTasks } from "@/lib/technician/list-assigned-tasks";
 
 import styles from "./my-tasks.module.css";
+import { TaskStatusForm } from "./task-status-form";
 
 export const metadata: Metadata = {
   title: "Görevlerim | UstaFlow Lite",
@@ -136,6 +137,11 @@ export default async function MyTasksPage() {
                       <dd>{dateFormatter.format(task.createdAt)}</dd>
                     </div>
                   </dl>
+
+                  <TaskStatusForm
+                    currentStatus={task.status}
+                    serviceRequestId={task.id}
+                  />
                 </article>
               );
             })}

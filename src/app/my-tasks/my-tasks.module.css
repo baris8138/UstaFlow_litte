@@ -177,6 +177,102 @@
   margin: 0;
 }
 
+.statusActionForm,
+.completedMessage {
+  margin: 20px 0 0;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+}
+
+.statusActionButtons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.statusActionButton,
+.completeActionButton {
+  min-height: 40px;
+  padding: 9px 14px;
+  border: 1px solid transparent;
+  border-radius: 11px;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    opacity 160ms ease,
+    transform 160ms ease;
+}
+
+.statusActionButton {
+  color: #115e59;
+  border-color: #99f6e4;
+  background: #ccfbf1;
+}
+
+.completeActionButton {
+  color: #ffffff;
+  background: var(--turquoise-dark);
+}
+
+.statusActionButton:hover:not(:disabled),
+.completeActionButton:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.statusActionButton:hover:not(:disabled) {
+  border-color: var(--turquoise);
+  background: #99f6e4;
+}
+
+.completeActionButton:hover:not(:disabled) {
+  background: #115e59;
+}
+
+.statusActionButton:focus-visible,
+.completeActionButton:focus-visible {
+  outline: 3px solid rgb(45 212 191 / 40%);
+  outline-offset: 3px;
+}
+
+.statusActionButton:disabled,
+.completeActionButton:disabled {
+  opacity: 0.58;
+  cursor: wait;
+}
+
+.statusSuccessMessage,
+.statusErrorMessage,
+.completedMessage {
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.statusSuccessMessage,
+.statusErrorMessage {
+  margin: 12px 0 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+}
+
+.statusSuccessMessage {
+  color: #166534;
+  background: #dcfce7;
+}
+
+.statusErrorMessage {
+  color: #991b1b;
+  background: #fee2e2;
+}
+
+.completedMessage {
+  color: #166534;
+}
+
 .detailGrid dl div + div {
   margin-top: 12px;
 }
@@ -233,4 +329,7 @@
   .badges { justify-content: flex-start; }
   .detailGrid,
   .dates { grid-template-columns: 1fr; }
+  .statusActionButtons { flex-direction: column; }
+  .statusActionButton,
+  .completeActionButton { width: 100%; }
 }
