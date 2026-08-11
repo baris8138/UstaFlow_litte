@@ -161,6 +161,11 @@
   margin-top: 20px;
 }
 
+.technicianGrid {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 440px;
+}
+
 .managementCard {
   display: flex;
   min-width: 0;

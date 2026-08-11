@@ -1,10 +1,8 @@
 import type { Prisma } from "@/generated/prisma/client";
-import { technicianListItemSelect } from "@/lib/technician/technician-list-item";
 
-export const serviceRequestListItemSelect = {
+export const technicianTaskItemSelect = {
   id: true,
   customerId: true,
-  technicianId: true,
   title: true,
   description: true,
   status: true,
@@ -17,14 +15,14 @@ export const serviceRequestListItemSelect = {
       id: true,
       name: true,
       type: true,
-      isActive: true,
+      phone: true,
+      addressLine: true,
+      city: true,
+      district: true,
     },
-  },
-  technician: {
-    select: technicianListItemSelect,
   },
 } satisfies Prisma.ServiceRequestSelect;
 
-export type ServiceRequestListItem = Prisma.ServiceRequestGetPayload<{
-  select: typeof serviceRequestListItemSelect;
+export type TechnicianTaskItem = Prisma.ServiceRequestGetPayload<{
+  select: typeof technicianTaskItemSelect;
 }>;

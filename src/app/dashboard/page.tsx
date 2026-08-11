@@ -100,9 +100,32 @@ export default async function DashboardPage() {
             </section>
           </>
         ) : role === "TECHNICIAN" ? (
-          <Link className={styles.roleLink} href="/technician">
-            Teknik personel alanına git
-          </Link>
+          <>
+            <Link className={styles.roleLink} href="/technician">
+              Teknik personel alanına git
+            </Link>
+
+            <section
+              className={styles.management}
+              aria-labelledby="technician-navigation-title"
+            >
+              <div className={styles.managementHeading}>
+                <p>Saha operasyonları</p>
+                <h2 id="technician-navigation-title">Teknisyen alanı</h2>
+              </div>
+
+              <div className={`${styles.managementGrid} ${styles.technicianGrid}`}>
+                <Link className={styles.managementCard} href="/my-tasks">
+                  <span className={styles.cardTitle}>Görevlerim</span>
+                  <span className={styles.cardDescription}>
+                    Size atanmış servis taleplerini ve saha detaylarını
+                    görüntüleyin.
+                  </span>
+                  <span className={styles.cardCta}>Görevlerime git</span>
+                </Link>
+              </div>
+            </section>
+          </>
         ) : null}
 
         <SignOutButton />
