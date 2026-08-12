@@ -3,8 +3,10 @@ import Link from "next/link";
 
 import { requireRole } from "@/lib/auth/access-control";
 import { listAssignedTasks } from "@/lib/technician/list-assigned-tasks";
+import { listServiceTaskNotes } from "@/lib/technician/list-service-task-notes";
 
 import styles from "./my-tasks.module.css";
+import { TaskNoteForm } from "./task-note-form";
 import { TaskStatusForm } from "./task-status-form";
 
 export const metadata: Metadata = {
@@ -35,6 +37,16 @@ const statusLabels = {
 export default async function MyTasksPage() {
   const currentUser = await requireRole(["TECHNICIAN"]);
   const tasks = await listAssignedTasks(currentUser.id);
+  const tasksWithNotes = await Promise.all(
+    tasks.map(async (task) => {
+      const result = await listServiceTaskNotes(task.id, currentUser.id);
+
+      return {
+        task,
+        notes: result.success ? result.notes : [],
+      };
+    }),
+  );
 
   return (
     <main className={styles.page}>
@@ -61,7 +73,7 @@ export default async function MyTasksPage() {
           </section>
         ) : (
           <section className={styles.taskGrid} aria-label="Atanmış görevler">
-            {tasks.map((task) => {
+            {tasksWithNotes.map(({ task, notes }) => {
               const location = [task.customer.city, task.customer.district]
                 .filter(Boolean)
                 .join(" / ");
@@ -142,6 +154,40 @@ export default async function MyTasksPage() {
                     currentStatus={task.status}
                     serviceRequestId={task.id}
                   />
+
+                  <section
+                    aria-labelledby={`notes-${task.id}`}
+                    className={styles.notesSection}
+                  >
+                    <h3 id={`notes-${task.id}`}>Çalışma Notları</h3>
+                    <TaskNoteForm serviceRequestId={task.id} />
+
+                    <div className={styles.noteHistory}>
+                      <h4>Not Geçmişi</h4>
+                      {notes.length === 0 ? (
+                        <p className={styles.emptyNotes}>
+                          Henüz çalışma notu eklenmemiş.
+                        </p>
+                      ) : (
+                        <ol className={styles.noteList}>
+                          {notes.map((note) => (
+                            <li className={styles.noteItem} key={note.id}>
+                              <div className={styles.noteMeta}>
+                                <strong>
+                                  {note.technician.firstName}{" "}
+                                  {note.technician.lastName}
+                                </strong>
+                                <time dateTime={note.createdAt.toISOString()}>
+                                  {dateFormatter.format(note.createdAt)}
+                                </time>
+                              </div>
+                              <p>{note.content}</p>
+                            </li>
+                          ))}
+                        </ol>
+                      )}
+                    </div>
+                  </section>
                 </article>
               );
             })}
