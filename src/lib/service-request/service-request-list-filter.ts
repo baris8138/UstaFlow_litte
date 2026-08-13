@@ -21,12 +21,15 @@ const technicianFilterSchema = z.union([
   z.string().trim().uuid(),
 ]);
 
+const pageSchema = z.coerce.number().int().min(1).default(1);
+
 export const serviceRequestListFilterSchema = z.object({
   search: optionalSearchSchema,
   status: z.nativeEnum(ServiceRequestStatus).optional(),
   priority: z.nativeEnum(ServiceRequestPriority).optional(),
   technician: technicianFilterSchema.optional(),
-}).default({});
+  page: pageSchema,
+}).default({ page: 1 });
 
 export type ServiceRequestListFilter = z.infer<
   typeof serviceRequestListFilterSchema

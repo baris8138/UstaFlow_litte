@@ -15,8 +15,34 @@ export class InvalidServiceRequestListFilterError extends Error {
   }
 }
 
+export const SERVICE_REQUEST_PAGE_SIZE = 10;
+
+export type ServiceRequestListPagination = {
+  page: number;
+  pageSize: number;
+  totalItems: number;
+  totalPages: number;
+  hasPreviousPage: boolean;
+  hasNextPage: boolean;
+};
+
+export type ServiceRequestListResult = ServiceRequestListItem[] & {
+  items: ServiceRequestListItem[];
+  pagination: ServiceRequestListPagination;
+};
+
+export function getServiceRequestTotalPages(totalItems: number) {
+  return totalItems === 0
+    ? 0
+    : Math.ceil(totalItems / SERVICE_REQUEST_PAGE_SIZE);
+}
+
+export function getServiceRequestPageSkip(page: number) {
+  return (page - 1) * SERVICE_REQUEST_PAGE_SIZE;
+}
+
 export async function listServiceRequests(filters?: unknown): Promise<
-  ServiceRequestListItem[]
+  ServiceRequestListResult
 > {
   const parsed = parseServiceRequestListFilter(filters);
 
@@ -24,7 +50,7 @@ export async function listServiceRequests(filters?: unknown): Promise<
     throw new InvalidServiceRequestListFilterError();
   }
 
-  const { search, status, priority, technician } = parsed.filters;
+  const { search, status, priority, technician, page } = parsed.filters;
   const where: Prisma.ServiceRequestWhereInput = {
     status,
     priority,
@@ -42,9 +68,29 @@ export async function listServiceRequests(filters?: unknown): Promise<
       : undefined,
   };
 
-  return prisma.serviceRequest.findMany({
-    where,
-    select: serviceRequestListItemSelect,
-    orderBy: [{ createdAt: "desc" }, { title: "asc" }],
-  });
+  const [totalItems, items] = await prisma.$transaction([
+    prisma.serviceRequest.count({ where }),
+    prisma.serviceRequest.findMany({
+      where,
+      skip: getServiceRequestPageSkip(page),
+      take: SERVICE_REQUEST_PAGE_SIZE,
+      select: serviceRequestListItemSelect,
+      orderBy: [
+        { createdAt: "desc" },
+        { title: "asc" },
+        { id: "asc" },
+      ],
+    }),
+  ]);
+  const totalPages = getServiceRequestTotalPages(totalItems);
+  const pagination: ServiceRequestListPagination = {
+    page,
+    pageSize: SERVICE_REQUEST_PAGE_SIZE,
+    totalItems,
+    totalPages,
+    hasPreviousPage: page > 1 && totalPages > 0,
+    hasNextPage: page < totalPages,
+  };
+
+  return Object.assign([...items], { items, pagination });
 }
