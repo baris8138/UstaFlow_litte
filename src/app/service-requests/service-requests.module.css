@@ -63,7 +63,8 @@
 }
 
 .backLink,
-.noCustomer a {
+.noCustomer a,
+.detailLink {
   flex: 0 0 auto;
   padding: 12px 18px;
   border: 1px solid var(--line);
@@ -76,7 +77,8 @@
 }
 
 .backLink:hover,
-.noCustomer a:hover {
+.noCustomer a:hover,
+.detailLink:hover {
   border-color: var(--turquoise);
   background: var(--surface);
 }
@@ -198,6 +200,17 @@
 .formFooter button:disabled {
   cursor: wait;
   opacity: 0.62;
+}
+
+.detailLink {
+  display: inline-flex;
+  white-space: nowrap;
+}
+
+.detailLink:focus-visible {
+  border-color: var(--turquoise-dark);
+  outline: 3px solid rgb(45 212 191 / 30%);
+  outline-offset: 2px;
 }
 
 .successMessage,
