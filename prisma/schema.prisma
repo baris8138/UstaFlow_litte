@@ -38,6 +38,18 @@ enum ServiceRequestPriority {
   URGENT
 }
 
+enum ServiceMaterialUnit {
+  PIECE
+  METER
+  CENTIMETER
+  LITER
+  MILLILITER
+  KILOGRAM
+  GRAM
+  BOX
+  PACK
+}
+
 model User {
   id           String   @id @default(uuid())
   firstName    String
@@ -49,8 +61,9 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  assignedServiceRequests ServiceRequest[]  @relation("TechnicianServiceRequests")
+  assignedServiceRequests ServiceRequest[]      @relation("TechnicianServiceRequests")
   serviceTaskNotes        ServiceTaskNote[]
+  serviceTaskMaterials    ServiceTaskMaterial[]
 
   @@map("users")
 }
@@ -88,9 +101,10 @@ model ServiceRequest {
   createdAt    DateTime               @default(now())
   updatedAt    DateTime               @updatedAt
 
-  customer   Customer          @relation(fields: [customerId], references: [id], onDelete: Restrict)
-  technician User?             @relation("TechnicianServiceRequests", fields: [technicianId], references: [id], onDelete: SetNull)
+  customer   Customer              @relation(fields: [customerId], references: [id], onDelete: Restrict)
+  technician User?                 @relation("TechnicianServiceRequests", fields: [technicianId], references: [id], onDelete: SetNull)
   notes      ServiceTaskNote[]
+  materials  ServiceTaskMaterial[]
 
   @@index([customerId, createdAt])
   @@index([technicianId, status])
@@ -111,4 +125,20 @@ model ServiceTaskNote {
 
   @@index([serviceRequestId, createdAt])
   @@map("service_task_notes")
+}
+
+model ServiceTaskMaterial {
+  id               String              @id @default(uuid())
+  serviceRequestId String
+  technicianId     String
+  name             String              @db.VarChar(120)
+  quantity         Decimal             @db.Decimal(10, 2)
+  unit             ServiceMaterialUnit
+  createdAt        DateTime            @default(now())
+
+  serviceRequest ServiceRequest @relation(fields: [serviceRequestId], references: [id], onDelete: Cascade)
+  technician     User           @relation(fields: [technicianId], references: [id], onDelete: Restrict)
+
+  @@index([serviceRequestId, createdAt])
+  @@map("service_task_materials")
 }
