@@ -3,9 +3,11 @@ import Link from "next/link";
 
 import { requireRole } from "@/lib/auth/access-control";
 import { listAssignedTasks } from "@/lib/technician/list-assigned-tasks";
+import { listServiceTaskMaterials } from "@/lib/technician/list-service-task-materials";
 import { listServiceTaskNotes } from "@/lib/technician/list-service-task-notes";
 
 import styles from "./my-tasks.module.css";
+import { TaskMaterialForm } from "./task-material-form";
 import { TaskNoteForm } from "./task-note-form";
 import { TaskStatusForm } from "./task-status-form";
 
@@ -34,16 +36,38 @@ const statusLabels = {
   CANCELLED: "İptal Edildi",
 };
 
+const materialUnitLabels = {
+  PIECE: "Adet",
+  METER: "Metre",
+  CENTIMETER: "Santimetre",
+  LITER: "Litre",
+  MILLILITER: "Mililitre",
+  KILOGRAM: "Kilogram",
+  GRAM: "Gram",
+  BOX: "Kutu",
+  PACK: "Paket",
+};
+
+function formatQuantity(quantity: string) {
+  return quantity
+    .replace(/(\.\d*?[1-9])0+$/, "$1")
+    .replace(/\.0+$/, "");
+}
+
 export default async function MyTasksPage() {
   const currentUser = await requireRole(["TECHNICIAN"]);
   const tasks = await listAssignedTasks(currentUser.id);
-  const tasksWithNotes = await Promise.all(
+  const tasksWithDetails = await Promise.all(
     tasks.map(async (task) => {
-      const result = await listServiceTaskNotes(task.id, currentUser.id);
+      const [notesResult, materialsResult] = await Promise.all([
+        listServiceTaskNotes(task.id, currentUser.id),
+        listServiceTaskMaterials(task.id, currentUser.id),
+      ]);
 
       return {
         task,
-        notes: result.success ? result.notes : [],
+        notes: notesResult.success ? notesResult.notes : [],
+        materials: materialsResult.success ? materialsResult.materials : [],
       };
     }),
   );
@@ -73,7 +97,7 @@ export default async function MyTasksPage() {
           </section>
         ) : (
           <section className={styles.taskGrid} aria-label="Atanmış görevler">
-            {tasksWithNotes.map(({ task, notes }) => {
+            {tasksWithDetails.map(({ task, notes, materials }) => {
               const location = [task.customer.city, task.customer.district]
                 .filter(Boolean)
                 .join(" / ");
@@ -182,6 +206,46 @@ export default async function MyTasksPage() {
                                 </time>
                               </div>
                               <p>{note.content}</p>
+                            </li>
+                          ))}
+                        </ol>
+                      )}
+                    </div>
+                  </section>
+
+                  <section
+                    aria-labelledby={`materials-${task.id}`}
+                    className={styles.materialsSection}
+                  >
+                    <h3 id={`materials-${task.id}`}>Kullanılan Malzemeler</h3>
+                    <TaskMaterialForm serviceRequestId={task.id} />
+
+                    <div className={styles.materialHistory}>
+                      <h4>Malzeme Geçmişi</h4>
+                      {materials.length === 0 ? (
+                        <p className={styles.emptyMaterials}>
+                          Henüz kullanılan malzeme kaydı bulunmuyor.
+                        </p>
+                      ) : (
+                        <ol className={styles.materialList}>
+                          {materials.map((material) => (
+                            <li className={styles.materialItem} key={material.id}>
+                              <div className={styles.materialSummary}>
+                                <strong>{material.name}</strong>
+                                <span>
+                                  {formatQuantity(material.quantity)}{" "}
+                                  {materialUnitLabels[material.unit]}
+                                </span>
+                              </div>
+                              <div className={styles.materialMeta}>
+                                <span>
+                                  {material.technician.firstName}{" "}
+                                  {material.technician.lastName}
+                                </span>
+                                <time dateTime={material.createdAt.toISOString()}>
+                                  {dateFormatter.format(material.createdAt)}
+                                </time>
+                              </div>
                             </li>
                           ))}
                         </ol>
