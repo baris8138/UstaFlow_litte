@@ -63,12 +63,14 @@ export default async function ServiceRequestsPage({
     status: stringParam(query.status),
     priority: stringParam(query.priority),
     technician: stringParam(query.technician),
+    page: stringParam(query.page),
   };
   const normalizedFilters = {
     search: optionalFilterParam(query.search),
     status: optionalFilterParam(query.status),
     priority: optionalFilterParam(query.priority),
     technician: optionalFilterParam(query.technician),
+    page: optionalFilterParam(query.page),
   };
   const parsedFilters = parseServiceRequestListFilter(normalizedFilters);
 
@@ -76,12 +78,46 @@ export default async function ServiceRequestsPage({
     listCustomers({ activeOnly: true }),
     listActiveTechnicians(),
   ]);
-  const serviceRequests = parsedFilters.success
+  const serviceRequestResult = parsedFilters.success
     ? await listServiceRequests(parsedFilters.filters)
-    : [];
-  const hasFilters = Object.values(normalizedFilters).some(
+    : null;
+  const serviceRequests = serviceRequestResult?.items ?? [];
+  const pagination = serviceRequestResult?.pagination ?? null;
+  const hasFilters = [
+    normalizedFilters.search,
+    normalizedFilters.status,
+    normalizedFilters.priority,
+    normalizedFilters.technician,
+  ].some(
     (value) => value !== undefined,
   );
+  const isPageOutOfRange =
+    pagination !== null &&
+    pagination.totalPages > 0 &&
+    pagination.page > pagination.totalPages;
+  const paginationHref = (page: number) => {
+    const parameters = new URLSearchParams();
+
+    for (const [key, value] of Object.entries({
+      search: normalizedFilters.search,
+      status: normalizedFilters.status,
+      priority: normalizedFilters.priority,
+      technician: normalizedFilters.technician,
+    })) {
+      if (value !== undefined) {
+        parameters.set(key, value);
+      }
+    }
+
+    if (page > 1) {
+      parameters.set("page", String(page));
+    }
+
+    const queryString = parameters.toString();
+    return queryString === ""
+      ? "/service-requests"
+      : `/service-requests?${queryString}`;
+  };
   const customerOptions = customers.map(({ id, name, type }) => ({
     id,
     name,
@@ -125,7 +161,7 @@ export default async function ServiceRequestsPage({
               <h2 id="request-filter">Servis Taleplerini Filtrele</h2>
             </div>
             <p>
-              {serviceRequests.length} servis talebi bulundu.
+              {pagination?.totalItems ?? 0} servis talebi bulundu.
             </p>
           </div>
 
@@ -196,7 +232,7 @@ export default async function ServiceRequestsPage({
               <p className={styles.eyebrow}>Kayıtlar</p>
               <h2 id="request-list">Kayıtlı servis talepleri</h2>
             </div>
-            <span>{serviceRequests.length} talep</span>
+            <span>{pagination?.totalItems ?? 0} talep</span>
           </div>
 
           {serviceRequests.length === 0 ? (
@@ -206,7 +242,11 @@ export default async function ServiceRequestsPage({
                   ? "Filtrelere uygun servis talebi bulunamadı."
                   : "Henüz servis talebi yok"}
               </h3>
-              {hasFilters ? (
+              {isPageOutOfRange ? (
+                <Link className={styles.emptyFilterLink} href={paginationHref(1)}>
+                  İlk sayfaya dön
+                </Link>
+              ) : hasFilters ? (
                 <Link className={styles.emptyFilterLink} href="/service-requests">
                   Filtreleri Temizle
                 </Link>
@@ -304,6 +344,31 @@ export default async function ServiceRequestsPage({
               </table>
             </div>
           )}
+
+          {pagination !== null &&
+          pagination.totalPages > 0 &&
+          !isPageOutOfRange ? (
+            <nav
+              aria-label="Servis talepleri sayfalama"
+              className={styles.pagination}
+            >
+              {pagination.hasPreviousPage ? (
+                <Link href={paginationHref(pagination.page - 1)}>Önceki</Link>
+              ) : (
+                <span aria-disabled="true">Önceki</span>
+              )}
+
+              <strong>
+                Sayfa {pagination.page} / {pagination.totalPages}
+              </strong>
+
+              {pagination.hasNextPage ? (
+                <Link href={paginationHref(pagination.page + 1)}>Sonraki</Link>
+              ) : (
+                <span aria-disabled="true">Sonraki</span>
+              )}
+            </nav>
+          ) : null}
         </section>
       </div>
     </main>
