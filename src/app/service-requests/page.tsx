@@ -105,6 +105,7 @@ export default async function ServiceRequestsPage() {
                     <th scope="col">Teknisyen</th>
                     <th scope="col">Planlanan tarih</th>
                     <th scope="col">Oluşturulma</th>
+                    <th scope="col">İşlem</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -168,6 +169,14 @@ export default async function ServiceRequestsPage() {
                           : "-"}
                       </td>
                       <td>{dateFormatter.format(request.createdAt)}</td>
+                      <td>
+                        <Link
+                          className={styles.detailLink}
+                          href={`/service-requests/${request.id}`}
+                        >
+                          Detayı Gör
+                        </Link>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
