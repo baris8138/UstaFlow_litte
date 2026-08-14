@@ -4,6 +4,7 @@ import Link from "next/link";
 import { requireRole } from "@/lib/auth/access-control";
 import { getServiceRequestDetail } from "@/lib/service-request/get-service-request-detail";
 
+import { ServiceScheduleForm } from "./service-schedule-form";
 import styles from "./service-request-detail.module.css";
 
 export const metadata: Metadata = { title: "Servis Talebi Detayı | UstaFlow Lite" };
@@ -55,6 +56,24 @@ export default async function ServiceRequestDetailPage({ params }: Props) {
           <div><span>Planlanan servis</span><strong>{serviceRequest.plannedAt ? dateFormatter.format(serviceRequest.plannedAt) : "-"}</strong></div>
           <div><span>Oluşturulma</span><strong>{dateFormatter.format(serviceRequest.createdAt)}</strong></div>
           <div><span>Son güncelleme</span><strong>{dateFormatter.format(serviceRequest.updatedAt)}</strong></div>
+        </section>
+
+        <section className={`${styles.section} ${styles.scheduleSection}`}>
+          <div className={styles.scheduleHeading}>
+            <div>
+              <p className={styles.eyebrow}>Operasyon zamanı</p>
+              <h2>Servis Planlama</h2>
+            </div>
+            <p className={styles.scheduleCurrent}>
+              {serviceRequest.plannedAt
+                ? `Mevcut planlama: ${dateFormatter.format(serviceRequest.plannedAt)}`
+                : "Henüz planlanmadı"}
+            </p>
+          </div>
+          <ServiceScheduleForm
+            currentPlannedAt={serviceRequest.plannedAt?.toISOString() ?? null}
+            serviceRequestId={serviceRequest.id}
+          />
         </section>
 
         <section className={styles.section}><h2>Talep Açıklaması</h2><p className={styles.description}>{serviceRequest.description}</p></section>
