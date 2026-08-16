@@ -13,7 +13,10 @@ export type UpdateServiceRequestScheduleResult =
     }
   | {
       success: false;
-      code: "INVALID_INPUT" | "SERVICE_REQUEST_NOT_FOUND";
+      code:
+        | "INVALID_INPUT"
+        | "SERVICE_REQUEST_NOT_FOUND"
+        | "SERVICE_REQUEST_TERMINAL";
     };
 
 export async function updateServiceRequestSchedule(
@@ -28,24 +31,47 @@ export async function updateServiceRequestSchedule(
   const { serviceRequestId, plannedAt } = parsed.data;
 
   try {
-    const serviceRequest = await prisma.serviceRequest.update({
-      where: { id: serviceRequestId },
-      data: { scheduledAt: plannedAt },
-      select: {
-        id: true,
-        scheduledAt: true,
-        updatedAt: true,
-      },
-    });
+    return await prisma.$transaction(async (transaction) => {
+      const serviceRequestRows = await transaction.$queryRaw<
+        Array<{ id: string; status: string }>
+      >(Prisma.sql`
+        SELECT "id", "status"
+        FROM "service_requests"
+        WHERE "id" = ${serviceRequestId}
+        FOR UPDATE
+      `);
+      const existingServiceRequest = serviceRequestRows[0];
 
-    return {
-      success: true,
-      serviceRequest: {
-        id: serviceRequest.id,
-        plannedAt: serviceRequest.scheduledAt,
-        updatedAt: serviceRequest.updatedAt,
-      },
-    };
+      if (existingServiceRequest === undefined) {
+        return { success: false, code: "SERVICE_REQUEST_NOT_FOUND" };
+      }
+
+      if (
+        existingServiceRequest.status === "COMPLETED" ||
+        existingServiceRequest.status === "CANCELLED"
+      ) {
+        return { success: false, code: "SERVICE_REQUEST_TERMINAL" };
+      }
+
+      const serviceRequest = await transaction.serviceRequest.update({
+        where: { id: serviceRequestId },
+        data: { scheduledAt: plannedAt },
+        select: {
+          id: true,
+          scheduledAt: true,
+          updatedAt: true,
+        },
+      });
+
+      return {
+        success: true,
+        serviceRequest: {
+          id: serviceRequest.id,
+          plannedAt: serviceRequest.scheduledAt,
+          updatedAt: serviceRequest.updatedAt,
+        },
+      };
+    });
   } catch (error: unknown) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&

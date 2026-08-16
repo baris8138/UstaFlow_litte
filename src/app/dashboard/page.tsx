@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
 import { SignOutButton } from "@/components/auth/sign-out-button";
+import { requireAuthenticatedUser } from "@/lib/auth/access-control";
 
 import styles from "./dashboard.module.css";
 
@@ -14,13 +13,7 @@ export const metadata: Metadata = {
 };
 
 export default async function DashboardPage() {
-  const session = await auth();
-
-  if (!session?.user) {
-    redirect("/login");
-  }
-
-  const { name, email, role } = session.user;
+  const { name, email, role } = await requireAuthenticatedUser();
 
   return (
     <main className={styles.page}>

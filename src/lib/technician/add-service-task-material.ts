@@ -14,7 +14,8 @@ export type AddServiceTaskMaterialResult =
       code:
         | "INVALID_INPUT"
         | "SERVICE_REQUEST_NOT_FOUND"
-        | "NOT_ASSIGNED_TO_TECHNICIAN";
+        | "NOT_ASSIGNED_TO_TECHNICIAN"
+        | "SERVICE_TASK_TERMINAL";
     };
 
 type OwnershipFailure = Exclude<
@@ -47,16 +48,16 @@ async function lockOwnedServiceRequest(
   transaction: Prisma.TransactionClient,
   serviceRequestId: string,
   technicianId: string,
-): Promise<boolean> {
-  const rows = await transaction.$queryRaw<Array<{ id: string }>>(Prisma.sql`
-    SELECT "id"
+): Promise<{ status: string } | null> {
+  const rows = await transaction.$queryRaw<Array<{ status: string }>>(Prisma.sql`
+    SELECT "status"
     FROM "service_requests"
     WHERE "id" = ${serviceRequestId}
       AND "technicianId" = ${technicianId}
     FOR UPDATE
   `);
 
-  return rows.length === 1;
+  return rows[0] ?? null;
 }
 
 function foreignKeyConstraint(error: Prisma.PrismaClientKnownRequestError) {
@@ -87,13 +88,13 @@ export async function addServiceTaskMaterial(
         return ownershipFailure;
       }
 
-      const isStillOwned = await lockOwnedServiceRequest(
+      const lockedServiceRequest = await lockOwnedServiceRequest(
         transaction,
         serviceRequestId,
         technicianId,
       );
 
-      if (!isStillOwned) {
+      if (lockedServiceRequest === null) {
         return (
           (await classifyOwnershipFailure(
             transaction,
@@ -101,6 +102,13 @@ export async function addServiceTaskMaterial(
             technicianId,
           )) ?? { success: false, code: "NOT_ASSIGNED_TO_TECHNICIAN" }
         );
+      }
+
+      if (
+        lockedServiceRequest.status === "COMPLETED" ||
+        lockedServiceRequest.status === "CANCELLED"
+      ) {
+        return { success: false, code: "SERVICE_TASK_TERMINAL" };
       }
 
       const material = await transaction.serviceTaskMaterial.create({

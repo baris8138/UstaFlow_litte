@@ -1,10 +1,16 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
+import { getCurrentUserState } from "@/lib/auth/access-control";
 
 export default async function Home() {
-  const session = await auth();
-  const isAuthenticated = Boolean(session?.user);
+  const currentUserState = await getCurrentUserState();
+
+  if (currentUserState.status === "invalid-session") {
+    redirect("/auth/invalidate-session");
+  }
+
+  const isAuthenticated = currentUserState.status === "authenticated";
 
   return (
     <main className="flex min-h-screen items-center bg-slate-950 px-6 py-16 text-white">
