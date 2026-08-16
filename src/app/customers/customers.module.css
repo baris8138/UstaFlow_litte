@@ -300,8 +300,17 @@
 }
 
 .tableWrap .customerName {
+  max-width: 220px;
+  overflow-wrap: anywhere;
   color: var(--navy-soft);
   font-weight: 750;
+}
+
+.tableWrap td:nth-child(3),
+.tableWrap td:nth-child(4) {
+  max-width: 220px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
 
 .tableActions {

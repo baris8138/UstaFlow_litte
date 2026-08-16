@@ -385,19 +385,23 @@
 
 .tableWrap table {
   width: 100%;
-  min-width: 1380px;
+  min-width: 1240px;
   border-collapse: collapse;
   text-align: left;
 }
 
 .tableWrap th,
 .tableWrap td {
-  padding: 16px 18px;
+  padding: 14px 12px;
   border-bottom: 1px solid var(--line);
   color: var(--slate);
   font-size: 13px;
   line-height: 1.45;
   vertical-align: top;
+}
+
+.tableWrap td {
+  overflow-wrap: anywhere;
 }
 
 .tableWrap th {
@@ -425,7 +429,7 @@
 }
 
 .technicianCell {
-  width: 280px;
+  width: 230px;
 }
 
 .technicianInfo,
@@ -444,6 +448,10 @@
   margin-top: 4px;
   color: #64748b;
   font-size: 12px;
+}
+
+.technicianInfo small {
+  overflow-wrap: anywhere;
 }
 
 .assignmentForm {
@@ -467,6 +475,7 @@
 }
 
 .assignmentForm select {
+  max-width: 100%;
   min-width: 0;
   padding: 7px 9px;
   border: 1px solid var(--line);

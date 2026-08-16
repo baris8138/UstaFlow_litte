@@ -19,7 +19,7 @@ export default async function Home() {
           Teknik servis yönetimi, sadeleştirildi
         </span>
 
-        <h1 className="mt-8 max-w-3xl text-5xl font-bold tracking-tight sm:text-7xl">
+        <h1 className="mt-8 max-w-3xl text-4xl leading-tight font-bold tracking-tight sm:text-7xl sm:leading-none">
           Saha operasyonlarınızı tek panelden yönetin.
         </h1>
 
