@@ -317,12 +317,15 @@ export default async function ServiceRequestsPage({
                         ) : (
                           <span className={styles.unassigned}>Atanmadı</span>
                         )}
-                        <TechnicianAssignmentForm
-                          key={request.technicianId ?? "unassigned"}
-                          serviceRequestId={request.id}
-                          currentTechnicianId={request.technicianId}
-                          technicians={technicians}
-                        />
+                        {request.status !== "COMPLETED" &&
+                        request.status !== "CANCELLED" ? (
+                          <TechnicianAssignmentForm
+                            key={request.technicianId ?? "unassigned"}
+                            serviceRequestId={request.id}
+                            currentTechnicianId={request.technicianId}
+                            technicians={technicians}
+                          />
+                        ) : null}
                       </td>
                       <td>
                         {request.scheduledAt

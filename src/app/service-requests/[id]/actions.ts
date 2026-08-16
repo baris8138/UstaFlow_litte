@@ -15,6 +15,7 @@ export type UpdateScheduleActionResult =
       code:
         | "INVALID_INPUT"
         | "SERVICE_REQUEST_NOT_FOUND"
+        | "SERVICE_REQUEST_TERMINAL"
         | "SERVER_ERROR";
       message: string;
     };
@@ -48,6 +49,8 @@ export async function updateServiceRequestScheduleAction(
       const messages = {
         INVALID_INPUT: "Planlama bilgileri geçersiz.",
         SERVICE_REQUEST_NOT_FOUND: "Servis talebi bulunamadı.",
+        SERVICE_REQUEST_TERMINAL:
+          "Tamamlanan veya iptal edilen servis taleplerinin planlaması değiştirilemez.",
       };
 
       return {

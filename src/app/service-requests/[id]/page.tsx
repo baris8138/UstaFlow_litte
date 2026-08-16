@@ -70,10 +70,13 @@ export default async function ServiceRequestDetailPage({ params }: Props) {
                 : "Henüz planlanmadı"}
             </p>
           </div>
-          <ServiceScheduleForm
-            currentPlannedAt={serviceRequest.plannedAt?.toISOString() ?? null}
-            serviceRequestId={serviceRequest.id}
-          />
+          {serviceRequest.status !== "COMPLETED" &&
+          serviceRequest.status !== "CANCELLED" ? (
+            <ServiceScheduleForm
+              currentPlannedAt={serviceRequest.plannedAt?.toISOString() ?? null}
+              serviceRequestId={serviceRequest.id}
+            />
+          ) : null}
         </section>
 
         <section className={styles.section}><h2>Talep Açıklaması</h2><p className={styles.description}>{serviceRequest.description}</p></section>

@@ -1,4 +1,8 @@
-import { Prisma } from "@/generated/prisma/client";
+import {
+  Prisma,
+  type ServiceRequestStatus,
+  type UserRole,
+} from "@/generated/prisma/client";
 import { prisma } from "@/lib/prisma";
 import { technicianAssignmentSchema } from "@/lib/service-request/technician-assignment-input";
 import {
@@ -16,6 +20,7 @@ export type AssignTechnicianResult =
       code:
         | "INVALID_INPUT"
         | "SERVICE_REQUEST_NOT_FOUND"
+        | "SERVICE_REQUEST_TERMINAL"
         | "TECHNICIAN_NOT_FOUND"
         | "TECHNICIAN_INACTIVE"
         | "USER_NOT_TECHNICIAN";
@@ -49,54 +54,68 @@ export async function assignTechnician(
   }
 
   const { serviceRequestId, technicianId } = parsed.data;
-  const existingServiceRequest = await prisma.serviceRequest.findUnique({
-    where: { id: serviceRequestId },
-    select: {
-      id: true,
-      status: true,
-      technicianId: true,
-    },
-  });
-
-  if (existingServiceRequest === null) {
-    return { success: false, code: "SERVICE_REQUEST_NOT_FOUND" };
-  }
-
-  if (technicianId !== null) {
-    const technician = await prisma.user.findUnique({
-      where: { id: technicianId },
-      select: {
-        id: true,
-        role: true,
-        isActive: true,
-      },
-    });
-
-    if (technician === null) {
-      return { success: false, code: "TECHNICIAN_NOT_FOUND" };
-    }
-
-    if (technician.role !== "TECHNICIAN") {
-      return { success: false, code: "USER_NOT_TECHNICIAN" };
-    }
-
-    if (!technician.isActive) {
-      return { success: false, code: "TECHNICIAN_INACTIVE" };
-    }
-  }
-
-  const shouldSetAssignedStatus =
-    technicianId !== null &&
-    (existingServiceRequest.status === "OPEN" ||
-      existingServiceRequest.status === "ASSIGNED");
-  const shouldSetOpenStatus =
-    technicianId === null &&
-    (existingServiceRequest.status === "OPEN" ||
-      existingServiceRequest.status === "ASSIGNED");
 
   try {
-    const serviceRequest: ServiceRequestView =
-      await prisma.serviceRequest.update({
+    return await prisma.$transaction(async (transaction) => {
+      const serviceRequestRows = await transaction.$queryRaw<
+        Array<{
+          id: string;
+          status: ServiceRequestStatus;
+          technicianId: string | null;
+        }>
+      >(Prisma.sql`
+        SELECT "id", "status", "technicianId"
+        FROM "service_requests"
+        WHERE "id" = ${serviceRequestId}
+        FOR UPDATE
+      `);
+      const existingServiceRequest = serviceRequestRows[0];
+
+      if (existingServiceRequest === undefined) {
+        return { success: false, code: "SERVICE_REQUEST_NOT_FOUND" };
+      }
+
+      if (
+        existingServiceRequest.status === "COMPLETED" ||
+        existingServiceRequest.status === "CANCELLED"
+      ) {
+        return { success: false, code: "SERVICE_REQUEST_TERMINAL" };
+      }
+
+      if (technicianId !== null) {
+        const technicianRows = await transaction.$queryRaw<
+          Array<{ id: string; role: UserRole; isActive: boolean }>
+        >(Prisma.sql`
+          SELECT "id", "role", "isActive"
+          FROM "users"
+          WHERE "id" = ${technicianId}
+          FOR UPDATE
+        `);
+        const technician = technicianRows[0];
+
+        if (technician === undefined) {
+          return { success: false, code: "TECHNICIAN_NOT_FOUND" };
+        }
+
+        if (technician.role !== "TECHNICIAN") {
+          return { success: false, code: "USER_NOT_TECHNICIAN" };
+        }
+
+        if (!technician.isActive) {
+          return { success: false, code: "TECHNICIAN_INACTIVE" };
+        }
+      }
+
+      const shouldSetAssignedStatus =
+        technicianId !== null &&
+        (existingServiceRequest.status === "OPEN" ||
+          existingServiceRequest.status === "ASSIGNED");
+      const shouldSetOpenStatus =
+        technicianId === null &&
+        (existingServiceRequest.status === "OPEN" ||
+          existingServiceRequest.status === "ASSIGNED");
+      const serviceRequest: ServiceRequestView =
+        await transaction.serviceRequest.update({
         where: { id: serviceRequestId },
         data: shouldSetAssignedStatus
           ? { technicianId, status: "ASSIGNED" }
@@ -106,7 +125,8 @@ export async function assignTechnician(
         select: serviceRequestViewSelect,
       });
 
-    return { success: true, serviceRequest };
+      return { success: true, serviceRequest };
+    });
   } catch (error: unknown) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&

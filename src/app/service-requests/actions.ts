@@ -62,6 +62,8 @@ export async function assignTechnicianAction(
     const messages = {
       INVALID_INPUT: "Teknisyen atama bilgileri geçersiz.",
       SERVICE_REQUEST_NOT_FOUND: "Servis talebi bulunamadı.",
+      SERVICE_REQUEST_TERMINAL:
+        "Tamamlanan veya iptal edilen servis taleplerinin ataması değiştirilemez.",
       TECHNICIAN_NOT_FOUND: "Seçilen teknisyen bulunamadı.",
       TECHNICIAN_INACTIVE: "Pasif teknisyen atanamaz.",
       USER_NOT_TECHNICIAN: "Seçilen kullanıcı teknisyen rolünde değil.",
