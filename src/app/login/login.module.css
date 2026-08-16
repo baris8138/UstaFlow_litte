@@ -107,24 +107,27 @@
 
 @media (max-width: 900px) {
   .loginShell { grid-template-columns: 1fr; }
-  .introPanel { min-height: auto; padding-bottom: 54px; }
-  .introCopy { margin-top: 70px; }
+  .introPanel { min-height: auto; padding-block: 32px 38px; }
+  .introCopy { margin-top: 42px; }
   .introCopy h1 { max-width: 650px; }
-  .flowPreview { grid-template-columns: repeat(3, 1fr); max-width: none; margin-top: 48px; }
+  .flowPreview { grid-template-columns: repeat(3, minmax(0, 1fr)); max-width: none; margin-top: 32px; }
   .flowLine { top: 21px; right: 12%; bottom: auto; left: 12%; width: auto; height: 2px; }
   .flowStep { align-items: flex-start; }
   .introFooter { display: none; }
-  .formPanel { min-height: auto; padding-block: 60px; }
+  .formPanel { min-height: auto; padding-block: 40px; }
 }
 
 @media (max-width: 620px) {
   .introPanel { padding: 28px 22px 38px; }
-  .introCopy { margin-top: 54px; }
-  .introCopy h1 { font-size: 40px; }
+  .introCopy { margin-top: 40px; }
+  .introCopy h1 { overflow-wrap: anywhere; font-size: 36px; line-height: 1.08; }
   .flowPreview { grid-template-columns: 1fr; }
   .flowLine { top: 22px; right: auto; bottom: 22px; left: 21px; width: 2px; height: auto; }
   .formPanel { padding: 30px 16px; }
-  .loginCard { padding: 28px 22px; border-radius: 22px; }
+  .loginCard { min-width: 0; padding: 28px 22px; border-radius: 22px; }
+  .inputWrap,
+  .inputWrap input,
+  .submitButton { min-width: 0; max-width: 100%; }
 }
 
 @media (prefers-reduced-motion: reduce) {

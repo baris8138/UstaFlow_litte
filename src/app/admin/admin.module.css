@@ -43,6 +43,10 @@
   gap: 16px;
 }
 
+.headerActions form {
+  margin-top: 0;
+}
+
 .backLink {
   color: var(--turquoise-dark);
   font-size: 14px;

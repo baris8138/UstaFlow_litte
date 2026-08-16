@@ -101,6 +101,8 @@ export default async function MyTasksPage() {
               const location = [task.customer.city, task.customer.district]
                 .filter(Boolean)
                 .join(" / ");
+              const isTerminal =
+                task.status === "COMPLETED" || task.status === "CANCELLED";
 
               return (
                 <article className={styles.taskCard} key={task.id}>
@@ -174,17 +176,29 @@ export default async function MyTasksPage() {
                     </div>
                   </dl>
 
-                  <TaskStatusForm
-                    currentStatus={task.status}
-                    serviceRequestId={task.id}
-                  />
+                  {!isTerminal ? (
+                    <TaskStatusForm
+                      currentStatus={task.status}
+                      serviceRequestId={task.id}
+                    />
+                  ) : null}
+
+                  {isTerminal ? (
+                    <p className={styles.readOnlyMessage}>
+                      {task.status === "COMPLETED"
+                        ? "Bu görev tamamlandı. Çalışma geçmişini görüntüleyebilirsiniz."
+                        : "Bu görev iptal edildi. Kayıt geçmişi yalnızca görüntülenebilir."}
+                    </p>
+                  ) : null}
 
                   <section
                     aria-labelledby={`notes-${task.id}`}
                     className={styles.notesSection}
                   >
                     <h3 id={`notes-${task.id}`}>Çalışma Notları</h3>
-                    <TaskNoteForm serviceRequestId={task.id} />
+                    {!isTerminal ? (
+                      <TaskNoteForm serviceRequestId={task.id} />
+                    ) : null}
 
                     <div className={styles.noteHistory}>
                       <h4>Not Geçmişi</h4>
@@ -218,7 +232,9 @@ export default async function MyTasksPage() {
                     className={styles.materialsSection}
                   >
                     <h3 id={`materials-${task.id}`}>Kullanılan Malzemeler</h3>
-                    <TaskMaterialForm serviceRequestId={task.id} />
+                    {!isTerminal ? (
+                      <TaskMaterialForm serviceRequestId={task.id} />
+                    ) : null}
 
                     <div className={styles.materialHistory}>
                       <h4>Malzeme Geçmişi</h4>
