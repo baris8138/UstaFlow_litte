@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 
-import { auth } from "@/auth";
+import { getCurrentUserState } from "@/lib/auth/access-control";
 
 import { LoginForm } from "./login-form";
 import styles from "./login.module.css";
@@ -19,10 +19,14 @@ const flowSteps = [
 ] as const;
 
 export default async function LoginPage() {
-  const session = await auth();
+  const currentUserState = await getCurrentUserState();
 
-  if (session?.user) {
+  if (currentUserState.status === "authenticated") {
     redirect("/dashboard");
+  }
+
+  if (currentUserState.status === "invalid-session") {
+    redirect("/auth/invalidate-session");
   }
 
   return (
