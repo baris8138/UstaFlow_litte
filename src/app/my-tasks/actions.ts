@@ -30,6 +30,8 @@ export async function addServiceTaskMaterialAction(
       INVALID_INPUT: "Malzeme bilgileri geçersiz.",
       SERVICE_REQUEST_NOT_FOUND: "Servis talebi bulunamadı.",
       NOT_ASSIGNED_TO_TECHNICIAN: "Bu servis talebi size atanmış değil.",
+      SERVICE_TASK_TERMINAL:
+        "Tamamlanan veya iptal edilen görevlere malzeme eklenemez.",
     };
 
     return { status: "error", message: messages[result.code] };
@@ -60,6 +62,8 @@ export async function addServiceTaskNoteAction(
       INVALID_INPUT: "Çalışma notu bilgileri geçersiz.",
       SERVICE_REQUEST_NOT_FOUND: "Servis talebi bulunamadı.",
       NOT_ASSIGNED_TO_TECHNICIAN: "Bu servis talebi size atanmış değil.",
+      SERVICE_TASK_TERMINAL:
+        "Tamamlanan veya iptal edilen görevlere çalışma notu eklenemez.",
     };
 
     return { status: "error", message: messages[result.code] };
