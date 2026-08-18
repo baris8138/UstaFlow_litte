@@ -4,6 +4,7 @@ import Link from "next/link";
 import { requireRole } from "@/lib/auth/access-control";
 import { listCustomers } from "@/lib/customer/list-customers";
 import { listServiceRequests } from "@/lib/service-request/list-service-requests";
+import { parseServiceRequestListFilter } from "@/lib/service-request/service-request-list-filter";
 import { listActiveTechnicians } from "@/lib/technician/list-active-technicians";
 
 import { ServiceRequestForm } from "./service-request-form";
@@ -35,14 +36,52 @@ const statusLabels = {
   CANCELLED: "İptal Edildi",
 };
 
-export default async function ServiceRequestsPage() {
+type ServiceRequestsPageProps = {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+};
+
+function stringParam(value: string | string[] | undefined) {
+  return typeof value === "string" ? value : undefined;
+}
+
+function optionalFilterParam(value: string | string[] | undefined) {
+  const parameter = stringParam(value);
+
+  return parameter === undefined || parameter.trim() === ""
+    ? undefined
+    : parameter;
+}
+
+export default async function ServiceRequestsPage({
+  searchParams,
+}: ServiceRequestsPageProps) {
   await requireRole(["ADMIN"]);
 
-  const [customers, serviceRequests, technicians] = await Promise.all([
+  const query = await searchParams;
+  const rawFilters = {
+    search: stringParam(query.search),
+    status: stringParam(query.status),
+    priority: stringParam(query.priority),
+    technician: stringParam(query.technician),
+  };
+  const normalizedFilters = {
+    search: optionalFilterParam(query.search),
+    status: optionalFilterParam(query.status),
+    priority: optionalFilterParam(query.priority),
+    technician: optionalFilterParam(query.technician),
+  };
+  const parsedFilters = parseServiceRequestListFilter(normalizedFilters);
+
+  const [customers, technicians] = await Promise.all([
     listCustomers({ activeOnly: true }),
-    listServiceRequests(),
     listActiveTechnicians(),
   ]);
+  const serviceRequests = parsedFilters.success
+    ? await listServiceRequests(parsedFilters.filters)
+    : [];
+  const hasFilters = Object.values(normalizedFilters).some(
+    (value) => value !== undefined,
+  );
   const customerOptions = customers.map(({ id, name, type }) => ({
     id,
     name,
@@ -79,6 +118,78 @@ export default async function ServiceRequestsPage() {
           <ServiceRequestForm customers={customerOptions} />
         )}
 
+        <section className={styles.filterSection} aria-labelledby="request-filter">
+          <div className={styles.filterHeading}>
+            <div>
+              <p className={styles.eyebrow}>Arama ve filtreleme</p>
+              <h2 id="request-filter">Servis Taleplerini Filtrele</h2>
+            </div>
+            <p>
+              {serviceRequests.length} servis talebi bulundu.
+            </p>
+          </div>
+
+          <form action="/service-requests" className={styles.filterForm} method="get">
+            <label>
+              <span>Arama</span>
+              <input
+                defaultValue={rawFilters.search ?? ""}
+                maxLength={100}
+                name="search"
+                placeholder="Talep başlığı veya müşteri adı"
+              />
+            </label>
+
+            <label>
+              <span>Durum</span>
+              <select defaultValue={rawFilters.status ?? ""} name="status">
+                <option value="">Tümü</option>
+                <option value="OPEN">Açık</option>
+                <option value="ASSIGNED">Atandı</option>
+                <option value="IN_PROGRESS">Devam Ediyor</option>
+                <option value="ON_HOLD">Beklemede</option>
+                <option value="COMPLETED">Tamamlandı</option>
+                <option value="CANCELLED">İptal Edildi</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Öncelik</span>
+              <select defaultValue={rawFilters.priority ?? ""} name="priority">
+                <option value="">Tümü</option>
+                <option value="LOW">Düşük</option>
+                <option value="MEDIUM">Orta</option>
+                <option value="HIGH">Yüksek</option>
+                <option value="URGENT">Acil</option>
+              </select>
+            </label>
+
+            <label>
+              <span>Teknisyen</span>
+              <select defaultValue={rawFilters.technician ?? ""} name="technician">
+                <option value="">Tümü</option>
+                <option value="UNASSIGNED">Atanmamış</option>
+                {technicians.map((technician) => (
+                  <option key={technician.id} value={technician.id}>
+                    {technician.firstName} {technician.lastName} — {technician.email}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            <div className={styles.filterActions}>
+              <button type="submit">Filtrele</button>
+              <Link href="/service-requests">Filtreleri Temizle</Link>
+            </div>
+          </form>
+
+          {!parsedFilters.success ? (
+            <p className={styles.filterError} role="alert">
+              Filtre bilgileri geçersiz. Lütfen seçimlerinizi kontrol edin.
+            </p>
+          ) : null}
+        </section>
+
         <section className={styles.listSection} aria-labelledby="request-list">
           <div className={styles.listHeading}>
             <div>
@@ -90,8 +201,18 @@ export default async function ServiceRequestsPage() {
 
           {serviceRequests.length === 0 ? (
             <div className={styles.emptyState}>
-              <h3>Henüz servis talebi yok</h3>
-              <p>Yeni servis talebini yukarıdaki formdan oluşturabilirsiniz.</p>
+              <h3>
+                {hasFilters
+                  ? "Filtrelere uygun servis talebi bulunamadı."
+                  : "Henüz servis talebi yok"}
+              </h3>
+              {hasFilters ? (
+                <Link className={styles.emptyFilterLink} href="/service-requests">
+                  Filtreleri Temizle
+                </Link>
+              ) : (
+                <p>Yeni servis talebini yukarıdaki formdan oluşturabilirsiniz.</p>
+              )}
             </div>
           ) : (
             <div className={styles.tableWrap}>
